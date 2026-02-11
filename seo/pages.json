@@ -1,0 +1,596 @@
+[
+    {
+        "loc": "https://atandra.in/",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "1.0"
+    },
+    {
+        "loc": "https://atandra.in/contact/sales",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/contact/service",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/power-quality-analyzers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/power-quality-analyzers/product/alm20",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/power-quality-analyzers/product/alm31",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/power-quality-analyzers/product/alm36",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/power-quality-analyzers/product/ca8345",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/power-quality-analyzers/product/mn93a",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/ma-250",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-e050",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-s030",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-s240",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-2150",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-2250",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-3151",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-3250",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-3360",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-3660",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-p360",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-4360",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-4460",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tc-4660",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tcc-7460",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tcc-7660",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/thermal-imagers/product/tcc-812k",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers/product/ca6522-ca6528",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers/product/ca6524-ca6526",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers/product/ca6532-ca6534-ca6536",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers/product/ca6505-ca6545",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers/product/ca6547-ca6549",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/insulation-testers/product/ca6550-ca6555",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/mtx203",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/dmm210",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/dmm240",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/ca5273",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/mtx3291",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/ca5292",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters/product/f65",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/clamp-meters/product/f205-f404-f604",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/clamp-meters/product/f406-f606",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/clamp-meters/product/f407-f607",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-loop-testers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-loop-testers/product/ca6417",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-loop-testers/product/ca6418",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/digital-multimeters",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/clamp-meters",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-testers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-testers/product/ca-6424",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-testers/product/ca-6460",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-testers/product/ca-6470n",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/earth-testers/product/ca-6472",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/micro-ohmmeters",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/micro-ohmmeters/ca6240",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/micro-ohmmeters/ca6255",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/micro-ohmmeters/ca6292",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/digi530",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/digi630",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/digi730",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/digi760",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/digi820",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/multy4",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/plmr90",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/plmr91",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/plmr93",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/multi-functional-meters/product/eon40",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/installation-testers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/installation-testers/product/ca6117",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/installation-testers/product/ca6133",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/oscilloscopes",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/measure/oscilloscopes/product/ox5022-ox5042",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/measure/oscilloscopes/product/ox9062-ox9102-ox9104-ox9304",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/el-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/eh-11-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/eh-31-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/eh-33-small-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/eh-33-large-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/sx-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/ups/product/hx-series",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/servo-stabilizers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/protect/servo-stabilizers/product/single-phase-servo-stabilizer",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/servo-stabilizers/product/three-phase-servo-stabilizer",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/static-stabilizers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/protect/static-stabilizers/product/static-voltage-stabilizer",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/static-stabilizers/product/three-phase-static-voltage-regulator",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/protect/isolation-transformers",
+        "lastmod": "2025-12-16",
+        "changefreq": "weekly",
+        "priority": "0.9"
+    },
+    {
+        "loc": "https://atandra.in/protect/isolation-transformers/product/auto-isolation-transformer",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/conserve/on-premise-systems",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/conserve/smart-factory-solution",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/conserve/tenant-billing-solution",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/conserve/enterprise-esg-reporting",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.8"
+    },
+    {
+        "loc": "https://atandra.in/about/certificates",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.7"
+    },
+    {
+        "loc": "https://atandra.in/about/events",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.7"
+    },
+    {
+        "loc": "https://atandra.in/about/our-leadership",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.7"
+    },
+    {
+        "loc": "https://atandra.in/about/careers",
+        "lastmod": "2025-12-16",
+        "changefreq": "monthly",
+        "priority": "0.7"
+    }
+]

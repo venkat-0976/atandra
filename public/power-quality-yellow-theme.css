@@ -1,0 +1,89 @@
+/* Power Quality Analyzers - Force Yellow Theme Override */
+/* This CSS file ensures yellow theme is applied when hosted */
+
+.power-quality-page {
+  --primary: 45 93% 47% !important;
+  --primary-foreground: 26 83% 14% !important;
+  --accent: 45 93% 47% !important;
+  --accent-foreground: 26 83% 14% !important;
+}
+
+/* Force yellow backgrounds and override any blue themes */
+.power-quality-page .bg-blue-50,
+.power-quality-page .bg-blue-100,
+.power-quality-page .bg-blue-200,
+.power-quality-page .bg-blue-300,
+.power-quality-page .bg-blue-400,
+.power-quality-page .bg-blue-500,
+.power-quality-page .bg-blue-600 {
+  background-color: rgb(254 240 138) !important; /* yellow-200 equivalent */
+}
+
+.power-quality-page .text-blue-400,
+.power-quality-page .text-blue-500,
+.power-quality-page .text-blue-600 {
+  color: rgb(250 204 21) !important; /* yellow-400 equivalent */
+}
+
+.power-quality-page .border-blue-300,
+.power-quality-page .border-blue-400,
+.power-quality-page .border-blue-500 {
+  border-color: rgb(250 204 21) !important; /* yellow-400 equivalent */
+}
+
+.power-quality-page .bg-primary {
+  background-color: rgb(250 204 21) !important;
+}
+
+.power-quality-page .text-primary {
+  color: rgb(250 204 21) !important;
+}
+
+.power-quality-page .border-primary {
+  border-color: rgb(250 204 21) !important;
+}
+
+/* Ensure yellow theme persists in all states */
+.power-quality-page * {
+  --tw-bg-opacity: 1 !important;
+}
+
+/* Force yellow gradients */
+.power-quality-page .bg-gradient-to-r.from-blue-400,
+.power-quality-page .bg-gradient-to-r.from-blue-500,
+.power-quality-page .bg-gradient-to-br.from-blue-50 {
+  background: linear-gradient(to right, rgb(250 204 21), rgb(245 158 11)) !important;
+}
+
+.power-quality-page .bg-gradient-to-br.from-blue-100 {
+  background: linear-gradient(to bottom right, rgb(254 249 195), rgb(254 240 138)) !important;
+}
+
+/* Override any cached blue styles */
+.power-quality-page .bg-blue-50 {
+  background-color: rgb(254 252 232) !important; /* yellow-50 */
+}
+
+.power-quality-page .bg-blue-100 {
+  background-color: rgb(254 249 195) !important; /* yellow-100 */
+}
+
+.power-quality-page .bg-blue-200 {
+  background-color: rgb(254 240 138) !important; /* yellow-200 */
+}
+
+.power-quality-page .bg-blue-300 {
+  background-color: rgb(253 224 71) !important; /* yellow-300 */
+}
+
+.power-quality-page .bg-blue-400 {
+  background-color: rgb(250 204 21) !important; /* yellow-400 */
+}
+
+.power-quality-page .bg-blue-500 {
+  background-color: rgb(245 158 11) !important; /* yellow-500 */
+}
+
+.power-quality-page .bg-blue-600 {
+  background-color: rgb(217 119 6) !important; /* yellow-600 */
+}

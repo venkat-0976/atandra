@@ -1,0 +1,182 @@
+﻿/ALM-20-inside-01.png
+/ALM-31-inside-01.png
+/alm36.png
+/ca5273.png
+/ca6522_01-01.png
+/ca6524-01-01.png
+/ca6532-01-01.png
+/ca8345_qualistar_f.png
+/Careers/hiring-1.jpeg
+/Certificates/ISO Certificate 9001-2015.png
+/clammeter/F205.png
+/clammeter/F406.png
+/clammeter/F407.png
+/clamp-meter-group.jpg
+/conserve_pics/Website Pics/g2-1.jpg
+/conserve_pics/Website Pics/g2-2.jpg
+/DiGi530S-H-01.png
+/DiGi630-01.png
+/DiGi730S-D-01.png
+/DiGi760-01.png
+/DiGi820-01-01.png
+/DMM-210.png
+/earth testers/CA 6424.png
+/earth testers/CA 6460.png
+/earth testers/CA 6470N.png
+/earth testers/CA 6472.png
+/earth_loop_testers/CA 6417.png
+/earth_loop_testers/CA 6418.png
+/earth_tester-01.png
+/earth-loop-tester.png
+/Elecrama/WhatsApp Image 2025-04-05 at 2.29.59 PM.jpeg
+/EON-meter-02-01.png
+/installation testers/CA 6117.png
+/installation testers/CA 6133-1.png
+/insulation testers/CA 6505.png
+/insulation testers/CA 6547.png
+/insulation testers/CA 6555.png
+/Insulation-tester-groupimage-01.png
+/isolation_transformers/X3_-__2-removebg-preview.png
+/logo.png
+/MA250-01.png
+/Micro-Meter-family.png
+/MN93a-01.png
+/multifunctionmeter-09.png
+/multimeter/CA 5292.png
+/multimeter/DMM 210.png
+/multimeter/DMM 240.png
+/multimeter/F65.png
+/multimeter/MTX 203.png
+/multimeter/MTX 3291.png
+/Multy4-01.JPG
+/Ohm meters/CA 6240.png
+/Ohm meters/CA 6255.png
+/Ohm meters/CA 6292.png
+/oscillosacopes old/OX 9062-2.png
+/Oscilloscope-groupimage.png
+/Overview-image-3660-01-01.png
+/ox5022-01.png
+/PLm_R90-removebg-preview-01.png
+/PLM93-01-01-01.png
+/PQA_landing_image1.png
+/R_91-removebg-preview-01-01.png
+/Servo_stabilizers/SS_12_-_1-removebg-preview.png
+/Servo_stabilizers/SS_28_AUIT_-_1-removebg-preview.png
+/Static_stabilizers/G_2-removebg-preview.png
+/TC2150-overview-01-01.png
+/TC-2250-01.png
+/TC-3360-overview-01-01.png
+/TC4360-overview-01-01.png
+/TC4460-overview-01-01.png
+/TC-4660-overview-01-01.png
+/TC-7460-overview-01-01.png
+/TC-812k-overview-01-01.png
+/TCC-3151-overview-01-01.png
+/TCC-762K-inside-01-01-01.png
+/TCE050-overview-01-01.png
+/TCP-360-overview-01-01.png
+/TC-S030-Overview-01-01.png
+/TCS240-overview-01-01.png
+/Tenant Billing/2 Dashboard.png
+/Tester-02.png
+/thermalimager-09.png
+/thermal-measurement/TC-3250.png
+/unnamed.png
+/UPS/SB_6-removebg-preview.png
+/UPS/SB4_-_2-removebg-preview.png
+/VF1.png
+Advanced servo voltage stabilizers with Â±1% accuracy, microprocessor control and &gt;98% efficiency for residential &amp; industrial protection.
+ALENSOFT ESG Reporting Platform simplifies compliance with ESG data, AI anomaly detection and BRSR, GRI &amp; CSRD templates for 90% faster reporting.
+ALENSOFT Smart Energy Management System delivers real-time energy monitoring and analytics,had 8â€“15% energy savings with 1.5â€“2 year ROI
+ALENSOFT Tenant Billing Solution enables automated utility billing with 99.9% accuracy, multi-tenant support, prepaid &amp; postpaid billing.
+Auto isolation transformers from 1â€“200 kVA with copper shielding, low capacitive coupling and safe voltage adaptation for industry.
+DSP-controlled static voltage stabilizers with IGBT technology offering ultra-fast correction, Â±1% accuracy and high efficiency.
+EH-11 Series 6 kVA &amp; 10 kVA online UPS with LCD display, smart battery management and energy-efficient performance for small and mid-size businesses.
+EH-31 Series 10 kVA &amp; 20 kVA three-phase input online UPS with ECO mode, smart battery management and advanced protection for enterprises.
+EH-33 Large Series 80â€“200 kVA online UPS with transformer-less design, N+X redundancy and low THDi for large data centers &amp; industries.
+EH-33 Small Series 10â€“60 kVA three-phase UPS with parallel operation, SNMP communication and advanced cooling for data centers.
+EL/ELB Series 1â€“3 kVA true online UPS with zero transfer time, pure sine wave output, compact design and wide voltage input for office protection.
+Enterprise-grade online UPS systems delivering zero downtime, surge protection, power conditioning and smart monitoring for mission-critical applications.
+https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&amp;h=600&amp;fit=crop&amp;auto=format
+https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&amp;h=400&amp;fit=crop&amp;auto=format
+https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&amp;h=400&amp;fit=crop&amp;auto=format
+HX Series 40â€“300 kVA industrial online UPS with harmonic control, N+1 redundancy and rugged construction for heavy manufacturing.
+Industrial static voltage stabilizer with DSP IGBT technology. Â±1% accuracy, 20kHz switching for precision voltage regulation.
+KRYKARD ALM 20 3-channel power quality analyzer provides accurate voltage, current, harmonic and energy measurement for electrical analysis.
+KRYKARD ALM 31 - 3 Channel Power Quality Analyzer with Power &amp; Flicker Measurement â€” power quality analyzer providing voltage, current, harmonic.
+KRYKARD ALM 36 - 4 Channel Power Quality Analyzer with Transients &amp; Harmonics Analysis â€” power quality analyzer providing voltage, current, harmonic.
+KRYKARD CA 5273/5275/5277 - CA Advanced Series Multimeter with Dual Display â€” digital multimeter designed for accurate electrical measurement.
+KRYKARD CA 5292/CA 5293 professional digital multimeter with 100,000-count color display, designed for precise and reliable electrical measurements.
+KRYKARD CA 6117 - Advanced Installation Tester with 5.7&quot; Color Display â€” advanced installation tester compliant with international electrical testing.
+KRYKARD CA 6133 standard installation tester with Android app compatibility, designed for advanced electrical testing and international compliance.
+KRYKARD CA 6240 10A micro-ohmmeter with USB communication for accurate low-resistance measurement and testing
+KRYKARD CA 6255 - 10A Advanced Micro-Ohmmeter with Automatic Discharge System â€” advanced 10 A microâ€‘ohmmeter with automatic discharge.
+KRYKARD CA 6292 200A high-current micro-ohmmeter provides accurate resistance measurement for heavy industrial and high-current testing.
+KRYKARD CA 6417 clamp-on earth loop tester with Bluetooth connectivity, using non-invasive clamp technology for safe and accurate ground loop testing.
+KRYKARD CA 6418 advanced clamp-on earth tester with oblong head design, delivering accurate 2-pole, 3-pole and 4-pole ground resistance testing.
+KRYKARD CA 6424 2P/3P earth tester with backlit LCD display, delivering accurate 2-pole, 3-pole and 4-pole ground resistance measurements.
+KRYKARD CA 6460 4P earth tester with resistivity measurement, delivering accurate 2-pole, 3-pole and 4-pole ground resistance testing.
+KRYKARD CA 6470N 3P/4P earth tester with USB connectivity, delivering accurate 2-pole, 3-pole and 4-pole ground measurements.
+KRYKARD CA 6472 advanced 3P/4P earth tester with automatic and expert modes, delivering precise 2-pole, 3-pole and 4-pole ground testing.
+KRYKARD CA 6505/CA 6545 - 5kV High Voltage Insulation Testers for Power Utilities â€” insulation tester designed for reliable insulation resistance.
+KRYKARD CA 6522/CA 6528 - Professional 1kV Insulation Testers with Visual Alarms â€” insulation tester designed for reliable insulation resistance.
+KRYKARD CA 6524/CA 6526 - Advanced 1kV Insulation Testers with Bluetooth Connectivity â€” insulation tester designed for reliable insulation resistance.
+KRYKARD CA 6532/CA 6534/CA 6536 insulation testers for telecommunications and electronics with reliable insulation testing.
+KRYKARD CA 6547/CA 6549 - Advanced 5kV Insulation Testers with USB Connectivity â€” insulation tester designed for reliable insulation resistance.
+KRYKARD CA 6550/CA 6555 - Ultra High Voltage 10kV/15kV Insulation Testers for Utility Monitoring â€” insulation tester designed for reliable insulation.
+KRYKARD CA 8345 - Class A Power Quality Analyzer with Premium Certification â€” power quality analyzer providing voltage, current, harmonic and energy.
+KRYKARD clamp meters â€” clamp meter delivering accurate nonâ€‘intrusive current measurement and advanced power diagnostics.
+KRYKARD DiGi 530 - Standard Multi Function Meter with Class 0.5s Accuracy â€” multiâ€‘function energy meter providing accurate electrical parameter.
+KRYKARD DiGi 630 - Advanced Multi Function Meter with Class 0.5s/0.2s Accuracy â€” multiâ€‘function energy meter providing accurate electrical parameter.
+KRYKARD DiGi 730 - Premium Multi Function Meter with Class 0.5s/0.2s Accuracy â€” multiâ€‘function energy meter providing accurate electrical parameter.
+KRYKARD DiGi 760 - High Precision Meter with Class 0.2s and TFT Display â€” professionalâ€‘grade electrical measurement for industrial applications.
+KRYKARD DiGi 820 - Class A Power Quality Analyzer for Advanced Monitoring â€” power quality analyzer providing voltage, current, harmonic and energy.
+KRYKARD digital multimeters deliver precision testing solutions for accurate electrical measurement across industrial and professional environments.
+KRYKARD DMM 210/220/230 standard digital multimeters with True RMS measurement deliver accurate and reliable electrical measurement
+KRYKARD DMM 240 - Advanced Digital Multimeter with 40,000 Counts LCD Display â€” digital multimeter designed for accurate electrical measurement.
+KRYKARD earth loop testers offer non-invasive clamp-on technology for safe and accurate ground resistance testing in electrical installations.
+KRYKARD earth testers â€” earth resistance tester providing accurate 2â€‘pole, 3â€‘pole and 4â€‘pole ground measurement for electrical systems.
+KRYKARD EON 4.0 advanced energy meter with Class 0.5 accuracy and IoT connectivity delivers precise AC/DC electrical energy measurement.
+KRYKARD F205/F404/F604 - Power Clamp Meter with True RMS Measurement â€” clamp meter delivering accurate nonâ€‘intrusive current measurement.
+KRYKARD F406/F606 solar clamp meters for photovoltaic applications deliver accurate non-intrusive current measurement and advanced power analysis.
+KRYKARD F407/F607 power and harmonics clamp meters with Bluetooth connectivity deliver accurate non-intrusive current measurement.
+KRYKARD F65 - RMS Leakage Current Clamp for Safety Testing â€” professionalâ€‘grade electrical measurement for industrial applications.
+KRYKARD Installation Testers - Professional Electrical Testing Equipment â€” advanced installation tester compliant with international electrical testing.
+KRYKARD insulation testers â€” insulation tester designed for reliable insulation resistance measurement in electrical maintenance.
+KRYKARD MA 250 - Mobile Thermal Imager with 256Ã—192 IR Resolution â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD micro ohmmeters â€” microâ€‘ohmmeter designed for precise lowâ€‘resistance measurement in industrial equipment testing.
+KRYKARD MN93-A current transformers with wide measurement range for accurate power measurement and advanced power analysis
+KRYKARD MTX 203 - Basic Digital Multimeter with 6000 Counts LCD Display â€” digital multimeter designed for accurate electrical measurement.
+KRYKARD MTX 3291 - High Resolution Multimeter with 60,000 Counts LCD Display â€” digital multimeter designed for accurate electrical measurement.
+KRYKARD multi functional meters â€” professionalâ€‘grade electrical measurement for industrial applications.
+KRYKARD Multy4 - Multi-Channel Meter for 4 Channel Monitoring â€” professionalâ€‘grade electrical measurement for industrial applications.
+KRYKARD oscilloscopes â€” digital oscilloscope providing advanced waveform analysis for electrical signal measurement.
+KRYKARD OX 5022/OX 5042 - Handheld Digital Oscilloscope with Multimeter Functions â€” digital oscilloscope providing advanced waveform analysis.
+KRYKARD OX 9062/OX 9102/OX 9104/OX 9304 portable digital oscilloscopes provide advanced features for accurate waveform analysis and diagnostics..
+KRYKARD PLM R90 - DC Energy Meter for Single Phase DC Applications â€” energy meter designed for accurate AC/DC electrical energy measurement.
+KRYKARD PLM R91 - AC Energy Meter for Single Phase AC Applications â€” energy meter designed for accurate AC/DC electrical energy measurement.
+KRYKARD PLM R93 - 3-Phase Energy Meter for Three Phase AC Applications â€” energy meter designed for accurate AC/DC electrical energy measurement.
+KRYKARD power quality analyzers â€” power quality analyzer providing voltage, current, harmonic and energy analysis for industrial diagnostics.
+KRYKARD TC 2150 compact thermal imager with WiFi connectivity for reliable temperature imaging and diagnostics.
+KRYKARD TC 2250 compact thermal imager with 256Ã—192 IR resolution for accurate temperature imaging and diagnostics
+KRYKARD TC 3151 - Professional Thermal Imager with Micro SD Storage â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD TC 3250 manual focus thermal imager with 256Ã—192 IR resolution, delivering precise temperature imaging for diagnostics and maintenance.
+KRYKARD TC 3360 - Wide Field Thermal Imager with 384Ã—288 IR Resolution â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD TC 3660 - Advanced Thermal Imager with 640Ã—480 IR Resolution â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD TC 4360 high resolution thermal imager with 384Ã—288 IR resolution, delivering accurate temperature imaging for diagnostics and maintenance.
+KRYKARD TC 4460 / TC 4460H extended range thermal imager with 640Ã—480 IR resolution for accurate temperature imaging and diagnostics.
+KRYKARD TC 4660 / TC 4660H high-end thermal imager with 640Ã—480 IR resolution for precise temperature imaging and diagnostics.
+KRYKARD TC E050 - Pocket Thermal Imager with 96Ã—96 IR Resolution â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD TC P360 - Pistol Grip Thermal Imager with 384Ã—288 IR Resolution â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD TC S030 - Entry Level Thermal Imager with Touch Screen â€” thermal imager offering temperature imaging for diagnostics, maintenance.
+KRYKARD TC S240 touch screen thermal imager with 256Ã—192 IR resolution, delivering accurate temperature imaging for diagnostics and maintenance.
+KRYKARD TCC 7460 / TCC 742K professional thermal camcorders with video recording for professional-grade electrical measurement
+KRYKARD TCC 7660 / TCC 762K - High-Resolution Thermal Camcorder with 640Ã—480 IR Resolution â€” professionalâ€‘grade electrical measurement.
+KRYKARD TCC 812K - Ultra-High Resolution Thermal Camcorder with 1280Ã—1024 IR Resolution â€” professionalâ€‘grade electrical measurement.
+KRYKARD thermal imagers for power system diagnostics deliver accurate temperature imaging for preventive maintenance and electrical inspections.
+Single phase servo stabilizers with fast response, digital control and wide voltage range for safe operation of sensitive electronics.
+Smart Factory Solution delivers real-time visibility and automation with 99.9% efficiency, 25â€“40% cost reduction, Digital Twin and AIoT
+SX Series 10â€“120 kVA online UPS with isolation transformer, DSP control and touchscreen LCD for industrial &amp; medical power protection.
+Three phase servo stabilizers with independent phase control, LCD display and high overload capacity for industrial machinery.
+Three phase static voltage regulator with DSP IGBT control, 20kHz switching and 10â€“1000 kVA range for precision industrial power.
+Ultra isolation transformers with double-wound design, RF shielding and &gt;80 dB attenuation for medical &amp; precision applications.

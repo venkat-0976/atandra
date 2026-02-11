@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Frontend-Backend Connection Test</h1>
+    
+    <div id="results"></div>
+    
+    <h2>Test Form Submission</h2>
+    <form id="testForm">
+        <input type="text" id="name" placeholder="Name" value="Test User" required><br><br>
+        <input type="email" id="email" placeholder="Email" value="test@example.com" required><br><br>
+        <input type="text" id="company" placeholder="Company" value="Test Company" required><br><br>
+        <input type="text" id="designation" placeholder="Designation" value="Manager" required><br><br>
+        <input type="text" id="city" placeholder="City" value="Chennai" required><br><br>
+        <input type="text" id="mobile" placeholder="Mobile" value="+91 9876543210" required><br><br>
+        <input type="text" id="pincode" placeholder="Pincode" value="600001" required><br><br>
+        <select id="products" required>
+            <option value="measure">Measure</option>
+            <option value="protect">Protect</option>
+            <option value="conserve">Conserve</option>
+            <option value="consultation">Consultation</option>
+        </select><br><br>
+        <textarea id="remarks" placeholder="Remarks">Test submission from test page</textarea><br><br>
+        <label><input type="checkbox" id="requestDemo" checked> Request Demo</label><br>
+        <label><input type="checkbox" id="sendDetails" checked> Send Details</label><br><br>
+        <button type="submit">Submit Test Form</button>
+    </form>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function addResult(test, status, message) {
+            const div = document.createElement('div');
+            div.className = `test-result ${status}`;
+            div.innerHTML = `<strong>${test}:</strong> ${message}`;
+            results.appendChild(div);
+        }
+
+        // Test 1: Check if we can reach the backend
+        async function testBackendConnection() {
+            try {
+                const response = await fetch('http://localhost:5007/health');
+                const data = await response.json();
+                if (data.success) {
+                    addResult('Backend Health', 'success', '✅ Backend is running and accessible');
+                } else {
+                    addResult('Backend Health', 'error', '❌ Backend responded but with error');
+                }
+            } catch (error) {
+                addResult('Backend Health', 'error', `❌ Cannot reach backend: ${error.message}`);
+            }
+        }
+
+        // Test 2: Check CORS
+        async function testCORS() {
+            try {
+                const response = await fetch('http://localhost:5007/api/email/health');
+                const data = await response.json();
+                addResult('CORS Test', 'success', '✅ CORS is working - can access API endpoints');
+            } catch (error) {
+                addResult('CORS Test', 'error', `❌ CORS issue: ${error.message}`);
+            }
+        }
+
+        // Test 3: Form submission
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                company: document.getElementById('company').value,
+                designation: document.getElementById('designation').value,
+                city: document.getElementById('city').value,
+                mobile: document.getElementById('mobile').value,
+                pincode: document.getElementById('pincode').value,
+                products: document.getElementById('products').value,
+                remarks: document.getElementById('remarks').value,
+                requestDemo: document.getElementById('requestDemo').checked,
+                requestCallback: false,
+                sendDetails: document.getElementById('sendDetails').checked,
+                sendUpdates: false
+            };
+
+            try {
+                addResult('Form Submission', 'success', '🔄 Submitting form...');
+                
+                const response = await fetch('http://localhost:5007/api/email/send-enquiry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    addResult('Form Submission', 'success', `✅ Form submitted successfully! Message: ${result.message}`);
+                } else {
+                    addResult('Form Submission', 'error', `❌ Form submission failed: ${result.message}`);
+                }
+            } catch (error) {
+                addResult('Form Submission', 'error', `❌ Network error: ${error.message}`);
+            }
+        });
+
+        // Run tests on page load
+        window.addEventListener('load', function() {
+            addResult('Page Load', 'success', '✅ Test page loaded successfully');
+            testBackendConnection();
+            setTimeout(testCORS, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Test User Python",
+  "email": "test@example.com",
+  "company": "Test Company Python",
+  "designation": "Test Manager",
+  "city": "Chennai",
+  "mobile": "+91 9876543210",
+  "pincode": "600001",
+  "products": "measure",
+  "remarks": "This is a test enquiry from Python backend",
+  "requestDemo": true,
+  "requestCallback": false,
+  "sendDetails": true,
+  "sendUpdates": false
+}

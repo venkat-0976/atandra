@@ -1,0 +1,789 @@
+Unnamed: 0,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5,Unnamed: 6,Unnamed: 7,Unnamed: 8,Unnamed: 9
+ EL / ELB SERIES 1/1 UPS (1 kVA & 3 kVA) ," RELIABLE POWER SOLUTIONS FOR UNINTERRUPTED PERFORMANCE
+",,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+" Wide input voltage range (110 ~ 300 Vac) 
+Linear load derating for input voltages under 176 V
+ and above 280 V to reduce battery usage 
+Settable delayed start & Rectifier soft star function 
+Static bypass mode for Auto switch over during
+ UPS fault ","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Seamless transfer, uninterrupted uptime ","High Uptime / Availability
+",,,,,,,
+" Frequency range (40 ~ 70 Hz) 
+Multiple Functions settable 
+Strong mixed load capacity & high over load
+ capacity"," 50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 208 / 220 / 230 / 240 V 
+Ensures seamless operation across diverse
+ applications  ","High Flexibility
+",,,,,,,
+" Online Double conversion with Advanced dual-core
+ DSP control Technology 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Complete Protection for connected equipment ","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage ","High Reliability
+",,,,,,,
+" Transformerless Design 
+Automatic Power Factor Correction @ Input for PF
+ up to 0.99 
+Less Thermal Load ","Low Operating Cost - High Efficiency - Upto 95.5% on
+ Online mode; Upto 98.5% on Eco mode; 
+Maximum utilization of UPS capacity 
+Economical sizing of the upstream network
+ components 
+Better efficiency results in lower heat, saving on Air
+ Conditioning ","Low Total Cost oF Ownership (TCO)
+",,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,EL - 01,EL - 03,ELB - 01,ELB - 03,,,,,
+Rated Capacity,1 kVA / 1kW,3 kVA / 3kW,1 kVA / 900W,3 kVA / 2.7kW,,,,,
+INPUT,,,,,,,,,
+Input Wiring,Single - Phase Three - wire (1Ø + N + PE),,,,,,,,
+Rated Voltage,208 / 220 / 230 / 240 Vac,,,,,,,,
+Voltage Range,"110 ~ 176 Vac (linear derating between 50% and 100% load), 176 ~ 280 Vac (no derating), 280 ~ 300 Vac (derating 50%)",,,,,,,,
+Frequency,40 / 70 Hz (auto-sensing),,,,,,,,
+Power Factor,≥ 0.99,,,,,,,,
+Bypass Voltage Range,-25% ~ +15% (settable),,,,,,,,
+Total Harmonic Distortion (THDi),≤ 5%,,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Single - Phase Three - wire (1Ø + N + PE),,,,,,,,
+Rated Voltage,208 / 220 / 230 / 240 Vac (settable via LCD),,,,,,,,
+Voltage Regulation,±1%,,,,,,,,
+Frequency,45 ~ 55 Hz or 55 ~ 65 Hz (synchronized range); 50 / 60 Hz ± 0.1% Hz (battery mode),,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Power Factor,1,0.9,,,,,,,
+Total Harmonic Distortion (THDv),≤ 2% (linear load); ≤ 5% (non-linear load),,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Overload,"105% ~ 110% for 30 min, 110% ~ 130% for 10 min, 130% ~ 150% for 30s, > 150% for 500 ms",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,36 V,72 V,96 V,36 V,96 V,,,,
+No. of Batteries,3 Pcs,6 Pcs,8 Pcs,3 x 7 Ah (inbuilt), 8 x 7 Ah (inbuilt),,,,
+Charging Current (Max.),12 A (1-12 settable),,,,,,,,
+Recharge Time,Inbuilt Battery model : 90% capacity restored in 3 hours; External Battery model - depends on the battery rating,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,"≥ 93.5% (Mains mode)
+ ≥ 88.2% (Battery mode)
+ ≥ 97.5% (ECO mode)","≥ 94.6% (Mains mode)
+ ≥ 92.5% (Battery mode)
+ ≥ 98.5% (ECO mode)","≥ 90% (Mains mode)
+ ≥ 85% (Battery mode)
+ ≥ 95% (ECO mode)","≥ 92% (Mains mode)
+ ≥ 87% (Battery mode)
+ ≥ 97% (ECO mode)",,,,,
+Transfer Time,"Mains mode to battery mode: 0 ms
+ Inverter mode to bypass mode: 4 ms (typical)",,,,,,,,
+Protections,"Short-circuit, Over Load, Over temperature, Battery discharge protection, Fan testing protection",,,,,,,,
+Communications,"RS 232 (standard), USB / RS485 / dry contacts / SNMP (optional)",,,,,,,,
+Display,LCD + LED,,,,,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0°C ~ 40°C,,,,,,,,
+Storage Temperature,-25°C ~ 55°C (without battery),,,,,,,,
+Relative Humidity,0% ~ 95% (non-condensing),,,,,,,,
+Altitude,≤ 1000 m; derating 1% for each additional 100 m,,,,,,,,
+IP Rating,IP 20,,,,,,,,
+Noise Level at 1m,≤ 50 dB,,,,,,,,
+Dimensions (W × D × H) (mm),144 × 312 × 216,144 × 417 × 216,144 × 317 × 216,191 × 419 × 335,,,,,
+Net Weight (kg),4,6.5,12.8,29.4,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+ EH 11 SERIES 1/1 UPS (6 kVA & 10 kVA), SMALLER FOOTPRINT WITH ROBUST BACKUP SOLUTIONS,,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+" Wide input voltage range (110 ~ 288 Vac) 
+Linear load derating for input voltages under 176 V
+ to reduce battery usage 
+Settable delayed start & Rectifier soft star function 
+Static bypass mode for Auto switch over during
+ UPS fault ","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Seamless transfer, uninterrupted uptime ","High Uptime / Availability
+",,,,,,,
+" Frequency range (40 ~ 70 Hz) 
+Multiple Functions settable 
+Battery compatibility 
+Flexible battery configuration 
+Strong mixed load capacity & high over load
+ capacity","50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 208 / 220 / 230 / 240 V 
+VRLA / Li-ion Battery compatible 
+Settable 16 - 20 batteries. 
+Ensures seamless operation across diverse
+ applications ",High Flexibility,,,,,,,
+"Online Double conversion with Advanced dual-core
+ DSP control with 3-level topology 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Advanced Digital Parallel architecture 
+Fan speed varies intelligently with temperature 
+Complete Protection for connected equipment ","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions with better efficiency 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Upto 4 units parallel capacity for redundancy & load
+ expansion 
+Enhanced service life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage","High Reliability
+",,,,,,,
+" Transformerless Design 
+Optimal performance with Output Unity Power
+ Factor 
+Automatic Power Factor Correction @ Input for PF
+ up to 0.99 
+Less Thermal Load 
+Compact internal layout ","Low Operating Cost - High Efficiency - Upto 95% on
+ Online mode; 98% on Eco mode 
+Maximum utilization of UPS capacity 
+Economical sizing of the upstream network
+ components 
+Better efficiency results in lower heat, saving on Air
+ Conditioning 
+Reduces the floor space. ",Low Total Cost oF Ownership (TCO),,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,EH 11 - 06,EH 11 - 10,,,,,,,
+Rated Capacity,6 kVA / 6 kW,10 kVA / 10 kW,,,,,,,
+INPUT,,,,,,,,,
+Input Wiring,Single-phase three-wire (1Φ + N + PE),,,,,,,,
+Rated Voltage,208 / 220 / 230 / 240 Vac,,,,,,,,
+Voltage Range,"110 ~ 176 Vac (linear derating between 50% & 100% load), 176 ~ 288 Vac (no derating)",,,,,,,,
+Rated Frequency,50 / 60 Hz (auto-sensing),,,,,,,,
+Frequency Range,40 ~ 70 Hz,,,,,,,,
+Power Factor,≥ 0.99,,,,,,,,
+Bypass Voltage Range,-40% ~ +15% (settable),,,,,,,,
+Total Harmonic Distortion (THDi),≤ 5%,,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Single-phase three-wire (1Φ + N + PE),,,,,,,,
+Rated Voltage,208 (PF=0.9) / 220 / 230 / 240 Vac,,,,,,,,
+Voltage Regulation,±1%,,,,,,,,
+Frequency,"Synchronized to bypass in mains mode, 50 / 60 Hz ± 0.1% Hz in Battery mode",,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Power Factor,1,,,,,,,,
+Total Harmonic Distortion (THDv),≤ 1% (linear load); ≤ 4% (non-linear load),,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Overload,"105% ~ 110% for 10 min, 111% ~ 125% for 1 min, 126% ~ 150% for 30 s",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,192 Vdc (192 ~ 240 Vdc settable),,,,,,,,
+No. of Batteries,16 pcs (16 ~ 20 selectable),,,,,,,,
+Charging Current (max.),"5 A (default), 1 ~ 5 A settable, 12 A (optional)",,,,,,,,
+Recharge Time,8 hrs depends on capacity of battery,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,"Upto 95% on mains mode, ≥ 98% in ECO mode",,,,,,,,
+Protections,"Short-circuit, Over load, Over temperature, Battery low voltage, Over voltage, Under voltage & Fan Failure",,,,,,,,
+Max. no. of Parallel Connections,4,,,,,,,,
+Communications,"RS 232 (standard), USB / RS 485 / dry contacts / SNMP / battery temperature compensation (optional)",,,,,,,,
+Display,LCD + LED,,,,,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0°C ~ 40°C,,,,,,,,
+Storage Temperature,-25°C ~ 55°C (without battery),,,,,,,,
+Relative Humidity,0% ~ 95% (non-condensing),,,,,,,,
+Altitude,≤ 1000 m; derating 1% for each additional 100 m,,,,,,,,
+IP rating,IP 20,,,,,,,,
+Noise level at 1 m,≤ 55 dB,≤ 58 dB,,,,,,,
+Dimensions (W × D × H) (mm),191 × 465 × 350,191 × 495 × 350,,,,,,,
+Net Weight (kg),14.5,16.5,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+ EH 31 SERIES 3/1 UPS (10 kVA & 20 kVA), UNMATCHED PERFORMANCE FOR CRITICAL POWER NEEDS,,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+"Wide input voltage range (190 ~ 499 Vac) 
+Linear load derating for input voltages under 305 V
+ to reduce battery usage 
+Settable delayed start & Rectifier soft star function 
+Static bypass mode for Auto switch over during
+ UPS fault ","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Seamless transfer, uninterrupted uptime ",High Uptime / Availability,,,,,,,
+" Frequency range (40 ~ 70 Hz) 
+Multiple Functions settable 
+Battery compatibility 
+Flexible battery configuration 
+Strong mixed load capacity & high over load
+ capacity ","50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 208 / 220 / 230 / 240 V 
+VRLA / Li-ion Battery compatible 
+Settable 16 - 20 batteries. 
+Ensures seamless operation across diverse
+ applications  ","High Flexibility
+",,,,,,,
+" Online Double conversion with Advanced dual-core
+ DSP control with 3-level topology 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Advanced Digital Parallel architecture 
+Fan speed varies intelligently with temperature 
+Complete Protection for connected equipment ","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions with better efficiency 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Upto 4 units parallel capacity for redundancy & load
+ expansion 
+Enhanced service life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage ","High Reliability
+",,,,,,,
+" Transformerless Design 
+Optimal performance with Output Unity Power
+ Factor 
+Automatic Power Factor Correction @ Input for PF
+ up to 0.99 
+Less Thermal Load 
+Compact internal layout","Low Operating Cost - High Efficiency - Upto 95% on
+ Online mode; 98% on Eco mode 
+Maximum utilization of UPS capacity 
+Economical sizing of the upstream network
+ components 
+Better efficiency results in lower heat, saving on Air
+ Conditioning 
+Reduces the floor space. ",Low Total Cost oF Ownership (TCO),,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,EH 31 - 10,EH 31 - 20,,,,,,,
+Rated Capacity,10 kVA / 10 kW,20 kVA / 20 kW,,,,,,,
+INPUT,,,,,,,,,
+Input Wiring,Three-phase five-wire (3Φ / 1Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Range,"190 ~ 305 Vac (linear derating between 50% and 100% load), 305 Vac ~ 499 Vac (no derating)",,,,,,,,
+Rated Frequency,50 / 60 Hz (auto-sensing),,,,,,,,
+Frequency Range,40 ~ 70 Hz,,,,,,,,
+Power Factor,≥ 0.99,,,,,,,,
+Bypass Voltage Range,-40% ~ +15% (settable),,,,,,,,
+Total Harmonic Distortion (THDi),≤ 5%,,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Single-phase three-wire (1Φ + N + PE),,,,,,,,
+Rated Voltage,208 (PF=0.9) / 220 / 230 / 240 Vac,,,,,,,,
+Voltage Regulation,±1%,,,,,,,,
+Frequency,Synchronized to bypass in mains mode; 50 / 60Hz ± 0.1Hz in Battery mode,,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Power Factor,1,,,,,,,,
+Total Harmonic Distortion (THDv),≤ 1% (linear load); ≤ 3% (non-linear load),,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Overload,"105% ~ 110% for 10 min, 110% ~ 125% for 1 min, 126% ~ 150% for 30 s",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,192 Vdc (192 ~ 240 Vdc settable),,,,,,,,
+No. of Batteries,16 pcs (16 ~ 20 selectable),,,,,,,,
+Charging Current (max.),"5 A (default), 1 ~ 5 A selectable; 10 A (optional)",,,,,,,,
+Recharge Time,8 hrs depends on capacity of battery,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,"≥ 94% at 100% load, max. 95% at 60% load, ≥ 98% in Eco mode",,,,,,,,
+Protections,"Short-circuit, Over load, Over temperature, Battery low voltage, Over voltage, Under voltage & Fan Failure",,,,,,,,
+Max. no. of Parallel Connections,4,,,,,,,,
+Communications,"Standard configuration: RS 232; Optional configuration: SNMP, RS 485, dry contacts, Battery Temperature compensation",,,,,,,,
+Display,LCD + LED,,,,,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0° C ~ 40° C,,,,,,,,
+Storage Temperature,-25° C ~ 55° C (without battery),,,,,,,,
+Relative Humidity,0% ~ 95% (non-condensing),,,,,,,,
+Altitude,≤ 1000 m; derating 1% for each additional 100 m,,,,,,,,
+IP rating,IP 20,,,,,,,,
+Noise level at 1m,≤ 58 dB,,,,,,,,
+Dimensions (W × D × H) (mm),191 × 495 × 350,191 × 495 × 515,,,,,,,
+Net Weight (kg),18.5,26.5,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+ EH 33 SERIES 3/3 UPS (10 kVA to 60 kVA),"HIGH-FREQUENCY DESIGN FOR MAXIMUM EFFECIENCY
+",,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+" Wide input voltage range (228 ~ 478 Vac) 
+Linear load derating for input voltages under 304 V
+ to reduce battery usage 
+Settable delayed start & Rectifier soft star function 
+Static bypass mode for Auto switch over during
+ UPS fault","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Seamless transfer, uninterrupted uptime",High Uptime / Availability,,,,,,,
+" Frequency range (40 ~ 70 Hz) 
+Multiple Functions settable 
+Battery compatibility 
+Flexible battery configuration 
+Strong mixed load capacity & high over load
+ capacity ","50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 380 / 400 / 415 V 
+VRLA / Li-ion Battery compatible 
+Settable 32 - 40 batteries. 
+Ensures seamless operation across diverse
+ applications  ",High Flexibility,,,,,,,
+" Online Double conversion with Advanced dual-core
+ DSP control with 3-level topology 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Advanced Digital Parallel architecture 
+Fan speed varies intelligently with temperature 
+Complete Protection for connected equipment ","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions with better efficiency 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Upto 4 units parallel capacity for redundancy & load
+ expansion 
+Enhanced service life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage ","High Reliability
+",,,,,,,
+"Transformerless Design 
+Optimal performance with Output Unity Power
+ Factor 
+Automatic Power Factor Correction @ Input for PF
+ up to 0.99 
+Less Thermal Load 
+Compact internal layout ","Low Operating Cost - High Efficiency - Upto 95% on
+ Online mode; 98% on Eco mode 
+Maximum utilization of UPS capacity 
+Economical sizing of the upstream network
+ components 
+Better efficiency results in lower heat, saving on Air
+ Conditioning 
+Reduces the floor space. ","Low Total Cost oF Ownership (TCO)
+",,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,EH - 10,EH - 20,EH - 30,EH - 40,EH - 60,,,,
+Rated Capacity,10 kVA / 10 kW,20 kVA / 20 kW,30 kVA / 30 kW,40 kVA / 40 kW,60 kVA / 60 kW,,,,
+INPUT,,,,,,,,,
+Input Wiring,Three-phase five wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Range,"304 - 478 Vac, full load",,,,,,,,
+,"228V - 304 Vac, load decrease linearly according to the min phase voltage",,,,,,,,
+Rated Frequency,50 / 60 Hz (auto-sensing),,,,,,,,
+Frequency Range,40 ~ 70 Hz,,,,,,,,
+Power Factor,≥ 0.99,,,,,,,,
+Bypass Voltage Range,"Selectable, default -20% - +15%",,,,,,,,
+,"Up limited: +10%, +15%, +20%, +25%, Down limited: -10%, -15%, -20%, -30%, -40%",,,,,,,,
+Total Harmonic Distortion (THDi),< 1% (linear load); 3% (non-linear load),,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Three-phase five wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Regulation,± 1% (linear load ),,,,,,,,
+Frequency,"Synchronized with utility in mains mode, 50 / 60Hz ± 0.1Hz in battery mode",,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Power Factor,1,,,,,,,,
+Total Harmonic Distortion (THDv),< 1% (linear load); < 3% (non-linear load),,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Overload,"< 110% for 60 mins, 110% ~ 125% for 10 mins, 125% ~150% for 1 min; > 150%, 200 ms",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,±240 VDC,,,,,,,,
+No. of Batteries,32 pcs (32 ~ 40 pcs selectable),,,,,,,,
+Charging Current (max.),10 A Max,15 A Max,20 A Max,,,,,,
+Recharge Time,6 - 8 hours depend on the capacity of battery,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,Upto 96% Online mode / Upto 98% ECO mode,,,,,,,,
+Transfer Time,0 ms,,,,,,,,
+Protections,"Short-circuit, Over load, Over Temp, Low Battery, Over Voltage, Under Voltage, Fan Failure",,,,,,,,
+Max. no. of Parallel Connections,4,,,,,,,,
+Communications,"Standard configuration: RS232, USB, RS484, NET, dry contacts;",,,,,,,,
+,"Optional configuration: SNMP card, Wi-Fi card, GPRS card",,,,,,,,
+Display,5 inches touch screen,,,,,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0° C ~ 40° C,,,,,,,,
+Storage Temperature,-40° C ~ 70° C,,,,,,,,
+Relative Humidity,0~ 95% (non-condensing),,,,,,,,
+Altitude,"< 1000 m, load derated 1% per 100 m from 1000 ~ 2000 m",,,,,,,,
+IP rating,IP 20,,,,,,,,
+Noise level at 1 m,58 dB Max,,,62 dB Max,,,,,
+Dimensions (W × D × H) (mm),250 x 720 x 560,250 x 720 x 560,250 x 840 x 560,250 x 720 x 560,250 x 790 x 560,,,,
+Net Weight (kg),31,33,42,42,48,,,,
+,,,,,,,,,
+,,,,,,,,,
+EH 33 SERIES 3/3 UPS (80 kVA to 200 kVA),THE HIGH-FREQUENCY TRANSFORMER-LESS STATIC CONVERTER UPS,,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+" Wide input voltage range (228 ~ 478 Vac) 
+Linear load derating for input voltages under 304 V
+ to reduce battery usage 
+Settable delayed start & Rectifier soft star function 
+Static bypass mode for Auto switch over during
+ UPS fault","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Seamless transfer, uninterrupted uptime ",High Uptime / Availability,,,,,,,
+" Frequency range (40 ~ 70 Hz) 
+Multiple Functions settable 
+Battery compatibility 
+Flexible battery configuration 
+Strong mixed load capacity & high over load
+ capacity ","50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 380 / 400 / 415 V 
+VRLA / Li-ion Battery compatible 
+Settable 32 - 40 batteries. 
+Ensures seamless operation across diverse
+ applications  ",High Flexibility,,,,,,,
+"Online Double conversion with Advanced dual-core
+ DSP control with 3-level topology 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Advanced Digital Parallel architecture 
+Fan speed varies intelligently with temperature 
+Complete Protection for connected equipment ","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions with better efficiency 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Upto 4 units parallel capacity for redundancy & load
+ expansion 
+Enhanced service life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage ","High Reliability
+",,,,,,,
+" Transformerless Design 
+Optimal performance with Output Unity Power
+ Factor 
+Automatic Power Factor Correction @ Input for PF
+ up to 0.99 
+Less Thermal Load 
+Compact internal layout ","Low Operating Cost - High Efficiency - Upto 96% on
+ Online mode; 98.5% on Eco mode 
+Maximum utilization of UPS capacity 
+Economical sizing of the upstream network
+ components 
+Better efficiency results in lower heat, saving on Air
+ Conditioning 
+Reduces the floor space. ",Low Total Cost oF Ownership (TCO),,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,EH - 80,EH - 100,EH - 120,EH - 160,EH - 200,,,,
+Rated Capacity,80 kVA / 80 kW,100 kVA / 100 kW,120 kVA / 120 kW,160 kVA / 160 kW,200 kVA / 200kW,,,,
+INPUT,,,,,,,,,
+Input Wiring,Three-phase five-wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Range,"304 ~ 478 Vac, full load",,,,,,,,
+,"228 V to 304 VAC, load decrease linearly according to the min phase voltage",,,,,,,,
+Rated Frequency,50 / 60 Hz (auto-sensing),,,,,,,,
+Frequency Range,40 ~ 70 Hz,,,,,,,,
+Power Factor,≥ 0.99,,,,,,,,
+Bypass Voltage Range,"Selectable, default -20% to +15%",,,,,,,,
+,"Up limited: +10%, +15%, +20%, +25%; Down limited: -10%, -15%, -20%, -30%, -40%",,,,,,,,
+Total Harmonic Distortion (THDi),≤ 3%,,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Three-phase five wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Regulation,±1% (linear load),,,,,,,,
+Frequency,"Synchronized with utility in mains mode, 50 / 60Hz ± 0.1 Hz in battery mode",,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Power Factor,1,,,,,,,,
+Total Harmonic Distortion (THDv),< 1% (full linear load); < 3% (full non-linear load),,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Overload,"<110 %, 60min; 110% ~125%, 10min; 125%~150%, 1min; >150 %, 200ms",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,± 240 Vdc,,,,,,,,
+No. of Batteries,40 pcs (32 - 40 selectable),,,,,,,,
+Charging Current (max),30 A,40 A,,,60 A,,,,
+Recharge Time,Depends on capacity of battery,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,0.96,,,,,,,,
+Transfer Time,0 ms,,,,,,,,
+Protections,"Short-circuit, Over load, Over Temp, Low Battery, Over Voltage, Under Voltage, Fan Failure",,,,,,,,
+Max. no. of Parallel Connections,4,,,,,,,,
+Communications,"Standard configuration: RS232, USB, RS485, NET, dry contacts;",,,,,,,,
+,"Optional configuration: SNMP card, Wi-Fi card, GPRS card",,,,,,,,
+Display,5 inches touch screen,,,,7 inch touch screen,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0° C ~ 40° C,,,,,,,,
+Storage Temperature,-40° C ~ 70° C,,,,,,,,
+Relative Humidity,0% ~ 95% (non-condensing),,,,,,,,
+Altitude,"< 1000 m, load derated 1 % per 100 m from 1000 to 2000 m",,,,,,,,
+IP rating,IP 20,,,,,,,,
+Noise level at 1 m,< 70 dB,,,,,,,,
+Dimensions (W × D × H) (mm),360 × 800 × 1200,360 × 850 × 1200,,440 × 850 × 1250,,,,,
+Net Weight (kg),152,156,160,194,200,,,,
+,,,,,,,,,
+,,,,,,,,,
+SX SERIES 3/3 UPS (10 kVA to 120 kVA),"ONLINE DOUBLE CONVERSION WITH INBUILT 
+ISOLATION TRANSFORMER",,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+"Wide input voltage range (285 ~ 475 Vac) 
+Settable delayed start & Rectifier soft star function 
+Intelligent self diagnosing function 
+Static bypass mode for Auto switch over during
+ UPS fault 
+Low MTTR <0.5 ","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Quick resolution for high TAT 
+Seamless transfer, uninterrupted uptime 
+Higher uptime enhances system availability for critical
+ application ","High Uptime / Availability
+",,,,,,,
+"Frequency range (50 ~ 60 Hz ± 5Hz) 
+Multiple Functions settable 
+Battery compatibility 
+Unbalanced Load compatible 
+Flexible battery configuration 
+Strong mixed load capacity & high over load
+ capacity ","50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 380 / 400 / 415 V 
+VRLA / Li-ion / Ni-cad Battery compatible 
+Efficient operation even with 100% Unbalanced Load 
+Settable 28 - 32 batteries. 
+Ensures seamless operation across diverse
+ applications  ","High Flexibility
+",,,,,,,
+" High MTBF > 2,00,000 hours 
+Online Double conversion with Advanced dual-core
+ DSP technology 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Advanced Digital Parallel architecture 
+Fan speed varies intelligently with temperature 
+Complete Protection for connected equipment 
+Inbuilt Galvanic Isolation Transformer","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions with better efficiency 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Upto 6 units parallel capacity for redundancy & load
+ expansion 
+Enhanced service life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage 
+Complete Isolation between Input & Output for Safety
+ & Reliability", High Reliability,,,,,,,
+" Low Operating Cost 
+Optimal performance with Output Unity Power
+ Factor 
+Less Thermal Load 
+Compact internal layout","High Efficiency - Upto 93% on Online mode; 98% on
+ Eco mode 
+Maximum utilization of UPS capacity 
+Better efficiency results in lower heat, saving on Air
+ Conditioning 
+Reduces the floor space."," Low Total Cost oF Ownership (TCO)
+",,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,SX - 10,SX - 20,SX - 30,SX - 40,SX - 60,SX - 80,SX - 100,SX - 120,
+Rated Capacity,10 kVA / 9 kW,20 kVA / 18 kW,30 kVA / 27 kW,40 kVA / 36 kW,60 kVA / 54 kW,80 kVA / 72 kW,100 kVA / 90 kW,120 kVA / 108 kW,
+INPUT,,,,,,,,,
+Input Wiring,Three-phase five-wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Range,285 V - 475 V,,,,,,,,
+Rated Frequency,50 / 60 Hz,,,,,,,,
+Frequency Range,50 / 60 Hz ±5 Hz,,,,,,,,
+Bypass Voltage Range,±20% (settable),,,,,,,,
+Delayed start of Rectifier,1 ~ 300s (settable via display panel),,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Three-phase five-wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Regulation,±1%,,,,,,,,
+Frequency,Synchronized with utility in mains mode; 50 / 60 Hz ±0.1% in battery mode,,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Power Factor,0.9,,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Total Harmonic Distortion (THDv),,,,,,,,,
+Transfer Time,0ms in AC mode to Battery mode; 0 ms in Inverter mode to Bypass mode,,,,,,,,
+Inverter Overload Capability,"105% Continuous, 105% ~ 110% for 60 min, 111% ~ 125% for 10 min",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,"12 V × configured battery number (settable via display panel), VRLA, Lithium-ion batteries",,,,,,,,
+No. of Batteries,32 pcs (28 ~ 32 selectable),,,,,,,,
+Charging Current,Settable as per battery capacity,,,,,,,,
+Charging,"Three - stage charging, auto switch floating / equalizing charge",,,,,,,,
+Battery Self-Test,Settable periodic self-test; manually configurable test time and voltage,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,"Up to 93% in Online mode, ≥ 98% in ECO mode",,,,,,,,
+Max. no. of Parallel Connections,6,,,,,,,,
+Protections,"Short-circuit, Over Load, Over temperature, Low battery, Over voltage, Under voltage & Fan Failure",,,,,,,,
+Communications,"Standard configuration: RS 232, RS 485, Dry contacts; Optional configuration: SNMP",,,,,,,,
+IP rating,IP 20,,,,,,,,
+Display,7 inches LCD touch screen,,,,,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0° C ~ 40° C,,,,,,,,
+Storage Temperature,-25° C ~ 55° C (without battery),,,,,,,,
+Relative Humidity,0% ~95% (non-condensing),,,,,,,,
+Noise level at 1m,65 dB,65 dB,,,,,,65 dB,
+Dimensions (W × D × H) (mm),400 × 800 × 1100,400 × 800 × 1100,600 × 700 × 1500,,,,,700 × 800 × 1700,
+Net Weight (kg),158,175,210,260,460,590,630,690,
+,,,,,,,,,
+,,,,,,,,,
+HX SERIES 3/3 UPS (40 kVA to 300 kVA),ONLINE DOUBLE CONVERSION WITH INBUILT ISOLATION TRANFORMER TO HANDLE CHALLENGING AND REGENERATIVE LOADS,,,,,,,,
+,,,,,,,,,
+FEATURES ,ADVANTAGES,BENEFITS,,,,,,,
+"Wide input voltage range (265 ~ 460 Vac) 
+Linear load derating for input voltages under 360 V
+ to reduce battery usage 
+Settable delayed start & Rectifier soft star function 
+Intelligent self diagnosing function 
+Static bypass mode for Auto switch over during
+ UPS fault 
+Low MTTR <0.5 ","Maximizes Mains Mode function, reduces Battery
+ usage, extends Battery life 
+Prevents Generator Overload due to starting inrush
+ current 
+Quick resolution for high TAT 
+Seamless transfer, uninterrupted uptime 
+Higher uptime enhances system availability for critical
+ application ","High Uptime / Availability
+",,,,,,,
+"Frequency range (40 ~ 70 Hz) 
+Multiple Functions settable 
+Battery compatibility 
+Unbalanced Load compatible 
+Flexible battery configuration 
+Strong mixed load capacity & high over load
+ capacity ","50 / 60 Hz Compatible & 60 / 50 Hz frequency
+ conversion 
+Eco Mode, Frequency conversion mode, Output
+ Voltage User selectable 380 / 400 / 415 V 
+VRLA / Li-ion / Ni-cad Battery compatible 
+Efficient operation even with 100% Unbalanced Load 
+Settable 48 - 52 batteries. 
+Ensures seamless operation across diverse
+ applications ","High Flexibility
+",,,,,,,
+" High MTBF > 2,00,000 hours 
+Online Double conversion with Advanced dual-core
+ DSP technology with IGBT Rectifier 
+Remote monitoring through SNMP 
+Standard Emergency Power off (EPO) 
+Advanced Battery Management 
+Advanced Digital Parallel architecture 
+Fan speed varies intelligently with temperature 
+Complete Protection for connected equipment 
+Inbuilt Galvanic Isolation Transformer","Faster and more precise control (±1% regulation),
+ ensuring stable output power under varying load
+ conditions with better efficiency 
+Allows to monitor and respond to issues quickly 
+Safety during faults 
+Improves Battery health offering predictable Power
+ Back up. Enhances battery life time and also alert for
+ Battery end of life 
+Upto 6 units parallel capacity for redundancy & load
+ expansion 
+Enhanced service life 
+Protection against Short-circuit, Overload, Over
+ Temperature, Over Voltage, Under Voltage, Fan
+ Failure, Battery Low Voltage 
+Complete Isolation between Input & Output for Safety
+ & Reliability",High Reliability,,,,,,,
+" Low Operating Cost 
+Optimal performance with Output Unity Power
+ Factor 
+Input for PF up to 0.99 
+Less Thermal Load 
+Compact internal layout","High Efficiency - Upto 94% on Online mode; 98% on
+ Eco mode 
+Maximum utilization of UPS capacity 
+Economical sizing of the upstream network
+ components 
+Better efficiency results in lower heat, saving on Air
+ Conditioning 
+Reduces the floor space"," Low Total Cost oF Ownership (TCO)
+",,,,,,,
+,,,,,,,,,
+SPECIFICATION,,,,,,,,,
+,,,,,,,,,
+MODEL,HX - 40,HX - 60,HX - 80,HX - 100,HX - 120,HX - 160,HX - 200,HX - 250,HX - 300
+Rated Capacity,40 kVA / 36 kW,60 kVA / 54 kW,80 kVA / 72 kW,100 kVA / 90 kW,120 kVA / 108 kW,160 kVA / 144 kW,200 kVA / 180 kW,250 kVA / 225 kW,300 kVA / 270 kW
+INPUT,,,,,,,,,
+Input Wiring,Three-phase five-wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Range,"360 ~ 460 Vac (non - derating, 260 ~ 360 Vac (linear derating between 70% ~ 100% load)",,,,,,,,
+,"304 - 346 V (derating 10%), 346 - 456 V (full load)",,,,,,,,
+Rated Frequency,50 / 60 Hz,,,,,,,,
+Frequency Range,50 / 60 Hz ± 5 Hz,,,,,,,,
+Power factor,≥ 0.99,,,,,,,,
+Delayed start of Rectifier,10 S (1 ~ 300 settable),,,,,,,,
+Bypass Voltage range,± 20% (settable),,,,,,,,
+OUTPUT,,,,,,,,,
+Output Wiring,Three-phase five-wire (3Φ + N + PE),,,,,,,,
+Rated Voltage,380 / 400 / 415 Vac,,,,,,,,
+Voltage Regulation,±1%,,,,,,,,
+Frequency,50 / 60 Hz ± 0.1% in battery mode,,,,,,,,
+Waveform,Sinusoidal,,,,,,,,
+Crest Factor,3:1,,,,,,,,
+Total Harmonic Distortion(THDv),≤ 2% (linear load); ≤ 5% (non-linear load),,,,,,,,
+Inverter Overload Capability,"105% ~ 110% for 60 min, 110% ~ 125% for 10 min, 125% ~ 150% for 1 min, 150% ~ 200% for 200ms",,,,,,,,
+BATTERIES,,,,,,,,,
+DC Voltage,360 Vdc,,,,,600 Vdc,,,
+No. of Batteries,30 pcs (29 - 40 selectable),,,,,50 pcs (48 - 52 selectable),,,
+Charging Current,Charging rate (settable) × battery capacity (settable) × number of battery group (settable),,,,,,,,
+Battery Self-Test,Settable periodic self - test; manually configurable test time and voltage,,,,,,,,
+SYSTEM,,,,,,,,,
+Efficiency,≥ 92% in Line mode ≥ 97% in ECO mode,,,,,≥ 94% in Line mode ≥ 98% in ECO mode,,,
+Max. no. of Parallel Connections,6,,,,,,,,
+Protections,"Short - circuit, Over load, Over temperature, Battery low voltage, Over voltage, Under voltage, Fan failure",,,,,,,,
+Communications,"Standard configuration: RS 232, RS 485, Dry contacts Optional configuration: SNMP",,,,,,,,
+IP rating,IP 30,,,,,IP 20,,,
+Display,7 inches LCD touch screen,,,,,,,,
+OTHERS,,,,,,,,,
+Operating Temperature,0° C ~ 40° C,,,,,,,,
+Storage Temperature,-25° C ~ 55° C (without battery),,,,,,,,
+Relative Humidity,0% ~ 95% (non-condensing),,,,,,,,
+Altitude,≤ 1000 m; derating 1% for each additional 100 m,,,,,"≤ 1000 m; above 1000 m, downgrading 1% for each additional 100 m",,,
+Noise level at 1m,≤ 65 dB,,,,,,,,
+Dimensions (W × D × H) (mm),600 × 600 × 1600,800 × 600 × 1800,800 × 800 × 1800,800 × 860 × 1700,,,,1210 × 860 × 1950,
+Net Weight (kg),340,480,580,630,680,790,1135,1275,1355
