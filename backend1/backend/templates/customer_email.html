@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - {{ company_name }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #059669 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #1e40af;
+            font-weight: 600;
+        }
+        
+        .message {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .info-card {
+            background-color: #f8fafc;
+            border-left: 4px solid #1e40af;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-card h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 120px;
+            margin-right: 10px;
+        }
+        
+        .info-value {
+            color: #6b7280;
+            flex: 1;
+        }
+        
+        .services-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .services-list li {
+            background-color: #ecfdf5;
+            color: #059669;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .next-steps {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .next-steps h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .next-steps ul {
+            color: #92400e;
+            padding-left: 20px;
+        }
+        
+        .next-steps li {
+            margin-bottom: 8px;
+        }
+        
+        .contact-info {
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .contact-info h3 {
+            color: #1e40af;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .contact-details {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .contact-item strong {
+            display: block;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        
+        .contact-item a {
+            color: #1e40af;
+            text-decoration: none;
+        }
+        
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background-color: #374151;
+            color: #d1d5db;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+        }
+        
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 8px 15px;
+            background-color: #4b5563;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .social-links a:hover {
+            background-color: #1e40af;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .contact-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>{{ company_name }}</h1>
+            <p>Energy Solutions & Innovation</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <div class="greeting">
+                Dear {{ name }},
+            </div>
+            
+            <div class="message">
+                <p>Thank you for your interest in {{ company_name }}! We have successfully received your inquiry and are excited about the opportunity to work with {{ company }}.</p>
+                
+                <p>Your inquiry regarding <strong>{{ products }}</strong> has been forwarded to our specialized team, and we will review your requirements carefully to provide you with the most suitable energy solutions.</p>
+            </div>
+            
+            <!-- Inquiry Summary -->
+            <div class="info-card">
+                <h3>📋 Your Inquiry Summary</h3>
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">{{ name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Company:</span>
+                    <span class="info-value">{{ company }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Designation:</span>
+                    <span class="info-value">{{ designation }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Location:</span>
+                    <span class="info-value">{{ city }}, {{ pincode }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Product Interest:</span>
+                    <span class="info-value">{{ products }}</span>
+                </div>
+                {% if has_services %}
+                <div class="info-row">
+                    <span class="info-label">Requested Services:</span>
+                    <div class="info-value">
+                        <ul class="services-list">
+                            {% for service in services %}
+                            <li>{{ service }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+                {% if has_remarks %}
+                <div class="info-row">
+                    <span class="info-label">Additional Notes:</span>
+                    <span class="info-value">{{ remarks }}</span>
+                </div>
+                {% endif %}
+                <div class="info-row">
+                    <span class="info-label">Submitted:</span>
+                    <span class="info-value">{{ submitted_at | datetime_format }}</span>
+                </div>
+            </div>
+            
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h3>🚀 What Happens Next?</h3>
+                <ul>
+                    <li><strong>Within 2-4 hours:</strong> Our team will review your inquiry and assign a specialist</li>
+                    <li><strong>Within 24 hours:</strong> You'll receive a detailed response with initial recommendations</li>
+                    {% if 'request-callback' in services_raw %}
+                    <li><strong>Phone Consultation:</strong> We'll call you at {{ mobile }} at your preferred time</li>
+                    {% endif %}
+                    {% if 'request-demo' in services_raw %}
+                    <li><strong>Product Demo:</strong> We'll schedule a personalized demonstration</li>
+                    {% endif %}
+                    {% if 'send-details' in services_raw %}
+                    <li><strong>Detailed Information:</strong> Comprehensive product brochures will be sent to your email</li>
+                    {% endif %}
+                    <li><strong>Custom Proposal:</strong> A tailored solution proposal based on your specific needs</li>
+                </ul>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h3>📞 Need Immediate Assistance?</h3>
+                <p style="margin-bottom: 20px; color: #6b7280;">Our support team is ready to help you</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <strong>📧 Email</strong>
+                        <a href="mailto:{{ company_email }}">{{ company_email }}</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>📱 Phone</strong>
+                        <a href="tel:{{ company_phone }}">{{ company_phone }}</a>
+                    </div>
+                    <div class="contact-item">
+                        <strong>🌐 Website</strong>
+                        <a href="{{ company_website }}" target="_blank">Visit Our Website</a>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; color: #6b7280;">
+                    <strong>📍 Office Address:</strong><br>
+                    {{ company_address }}
+                </div>
+            </div>
+            
+            <div class="message">
+                <p>We appreciate your trust in {{ company_name }} and look forward to building a successful partnership with {{ company }}. Our commitment is to provide you with innovative, efficient, and sustainable energy solutions that meet your specific requirements.</p>
+                
+                <p style="margin-top: 20px;"><strong>Best regards,</strong><br>
+                The {{ company_name }} Team</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>{{ company_name }}</strong></p>
+            <p>Leading Energy Solutions Provider</p>
+            
+            <div class="social-links">
+                <a href="{{ company_website }}" target="_blank">Website</a>
+                <a href="mailto:{{ company_email }}">Email Us</a>
+                <a href="tel:{{ company_phone }}">Call Us</a>
+            </div>
+            
+            <p>{{ company_address }}</p>
+            <p>&copy; {{ current_year }} {{ company_name }}. All rights reserved.</p>
+            
+            <p style="font-size: 12px; margin-top: 15px; color: #9ca3af;">
+                This email was sent because you submitted an inquiry through our website. 
+                If you have any questions, please contact us at {{ company_email }}.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -131,20 +131,99 @@ function addCanonicalTag(html, route) {
     return html
 }
 
+// mapping of routes to WordPress slugs
+const routeToSlug = {
+    '/measure/insulation-testers': 'insulation-testers',
+    '/measure/power-quality-analyzers': 'power-quality-analyzers',
+    '/measure/thermal-imagers': 'thermal-imagers',
+    '/measure/micro-ohmmeters': 'micro-ohmmeters',
+    '/measure/digital-multimeters': 'digital-multimeters',
+    '/measure/earth-testers': 'earth-testers',
+    '/measure/oscilloscopes': 'oscilloscopes',
+    '/measure/clamp-meters': 'clamp-meters',
+    '/measure/earth-loop-testers': 'earth-loop-testers',
+    '/measure/installation-testers': 'installation-testers',
+    '/measure/multi-functional-meters': 'multi-function-meters',
+    '/about/certificates': 'certificates',
+    '/about/events': 'events',
+    '/about/our-leadership': 'leadership',
+    '/blogs': 'blogs',
+};
+
+async function fetchWpData(route) {
+    const slug = routeToSlug[route];
+    if (!slug) return null;
+
+    const baseUrl = 'https://cms.atandra.in/wp-json/wp/v2';
+    try {
+        console.log(`[react-ssg] Fetching WP data for ${route} (slug: ${slug})...`);
+        const pageResponse = await fetch(`${baseUrl}/pages?slug=${slug}&acf_format=standard`);
+        if (!pageResponse.ok) return null;
+        const pages = await pageResponse.json();
+        const pageData = (pages && pages.length > 0) ? pages[0] : null;
+
+        // Events route: also fetch events CPT
+        if (route === '/about/events') {
+            const eventsResponse = await fetch(`${baseUrl}/events?per_page=100&acf_format=standard`);
+            const eventsJson = eventsResponse.ok ? await eventsResponse.json() : [];
+            const mappedEvents = Array.isArray(eventsJson)
+                ? eventsJson
+                    .map((item) => ({
+                        id: item.id,
+                        title: item.title?.rendered || '',
+                        description: item.acf?.event_description || '',
+                        images: Array.isArray(item.acf?.event_gallery)
+                            ? item.acf.event_gallery.map((img) => ({ url: img.url || img.guid, }))
+                            : [],
+                        category: item.slug,
+                    }))
+                    .filter((e) => e.images.length > 0)
+                : [];
+            return pageData ? { ...pageData, events: mappedEvents } : { slug: 'events', acf: {}, events: mappedEvents };
+        }
+
+        // Blogs route: also fetch blogs CPT with _embed for featured images
+        if (route === '/blogs') {
+            const blogsResponse = await fetch(`${baseUrl}/blogs?_embed&per_page=100`);
+            const blogsJson = blogsResponse.ok ? await blogsResponse.json() : [];
+            const mappedBlogs = Array.isArray(blogsJson)
+                ? blogsJson.map((item) => ({
+                    id: item.id,
+                    title: item.title?.rendered || '',
+                    excerpt: item.excerpt?.rendered || '',
+                    content: item.content?.rendered || '',
+                    image: item._embedded?.['wp:featuredmedia']?.[0]?.source_url || '',
+                }))
+                : [];
+            return pageData ? { ...pageData, blogs: mappedBlogs } : { slug: 'blogs', acf: {}, blogs: mappedBlogs };
+        }
+
+        return pageData;
+    } catch (e) {
+        console.error(`[react-ssg] Error fetching WP data for ${route}:`, e);
+        return null;
+    }
+}
+
 console.log(`[react-ssg] Generating ${routes.length} static pages...`)
 
 for (const route of routes) {
     try {
         console.log(`[react-ssg] Rendering route: ${route}`)
-        const result = await render(route)
 
-        // Handle both old format (string) and new format (object with html and headTags)
+        // Fetch WP data before rendering
+        const wpData = await fetchWpData(route);
+
+        const result = await render(route, wpData)
+
+        // Handle both old format (string) and new format (object)
         const html = typeof result === 'string' ? result : result.html
         const headTags = typeof result === 'object' && result.headTags ? result.headTags : ''
+        const dataScript = typeof result === 'object' && result.dataScript ? result.dataScript : ''
 
         // Validate that we got actual content
         if (!html || html.trim().length < 100) {
-            console.warn(`[react-ssg] Warning: Route ${route} produced very little HTML (${html?.length || 0} chars). This might indicate a routing issue.`)
+            console.warn(`[react-ssg] Warning: Route ${route} produced very little HTML (${html?.length || 0} chars).`)
         }
 
         const routePath = route === '/' ? 'index.html' : `${route.slice(1)}.html`
@@ -156,44 +235,24 @@ for (const route of routes) {
         // Start with a fresh copy of the template
         let finalHtml = template
 
-        // Inject head tags from react-helmet before </head>
+        // Inject data script for hydration
+        if (dataScript) {
+            finalHtml = finalHtml.replace('</head>', `${dataScript}\n</head>`);
+        }
+
+        // Inject head tags from react-helmet
         if (headTags && headTags.trim()) {
-            console.log(`[react-ssg] Injecting head tags for ${route} (${headTags.length} chars)`)
-            console.log(`[react-ssg] Head tags preview: ${headTags.substring(0, 200)}...`)
-
-            // Remove default title if it exists (helmet will provide the correct one)
-            // Match title with or without attributes, including data-rh attributes
+            // Remove default title and metas
             finalHtml = finalHtml.replace(/<title[^>]*>.*?<\/title>/gi, '')
-
-            // Remove default meta description if it exists (helmet will provide the correct one)
             finalHtml = finalHtml.replace(/<meta[^>]*name=["']description["'][^>]*>/gi, '')
-
-            // Remove any existing meta tags that might conflict (og:title, og:description, etc.)
-            // Keep only essential ones like viewport, charset, etc.
             finalHtml = finalHtml.replace(/<meta[^>]*property=["']og:[^"']*["'][^>]*>/gi, '')
             finalHtml = finalHtml.replace(/<meta[^>]*name=["']twitter:[^"']*["'][^>]*>/gi, '')
-
-            // Remove any existing canonical links (helmet will provide the correct one)
             finalHtml = finalHtml.replace(/<link[^>]*rel=["']canonical["'][^>]*>/gi, '')
 
-            // Inject helmet head tags before closing </head>
-            // Ensure proper indentation and formatting
             if (finalHtml.includes('</head>')) {
-                // Split headTags by newlines and properly indent each line
-                const indentedHeadTags = headTags
-                    .split('\n')
-                    .map(line => line.trim())
-                    .filter(line => line.length > 0)
-                    .map(line => `    ${line}`)
-                    .join('\n')
-
+                const indentedHeadTags = headTags.split('\n').map(line => `    ${line.trim()}`).join('\n')
                 finalHtml = finalHtml.replace('</head>', `${indentedHeadTags}\n</head>`)
-            } else {
-                console.warn(`[react-ssg] ⚠️ Warning: No </head> tag found in template for ${route}`)
             }
-        } else {
-            console.warn(`[react-ssg] ⚠️ Warning: No head tags to inject for ${route}`)
-            console.warn(`[react-ssg] ⚠️ This might indicate that Helmet did not render or context was not extracted properly.`)
         }
 
         // ✅ FIX: Remove duplicate Layout components from SSG output

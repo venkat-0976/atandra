@@ -17,12 +17,75 @@ import PageLayout from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/button";
 import SeoHead from '@/seo/SeoHead';
 
-const EarthLoopTesters = () => {
+// Feature Highlight Component
+const FeatureHighlight = ({ title, description }: { title: string, description: string }) => {
+  const getFeatureIcon = (title: string) => {
+    const normalized = title.toLowerCase().trim();
+    if (normalized.includes('non-invasive') || normalized.includes('clamp') || normalized.includes('zap')) return Zap;
+    if (normalized.includes('precision') || normalized.includes('accurate') || normalized.includes('gauge')) return Gauge;
+    if (normalized.includes('safety') || normalized.includes('compliance') || normalized.includes('shield')) return Shield;
+    if (normalized.includes('data') || normalized.includes('storage') || normalized.includes('logging') || normalized.includes('memory')) return FileText;
+    if (normalized.includes('display') || normalized.includes('oled')) return Check;
+    if (normalized.includes('user-friendly') || normalized.includes('interface') || normalized.includes('menu')) return Menu;
+    return Zap; // Default
+  };
+
+  const Icon = getFeatureIcon(title);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-6 h-full bg-yellow-50/50 flex flex-col items-center text-center"
+      style={{ fontFamily: 'Open Sans, sans-serif' }}
+    >
+      <div className="flex flex-row items-center gap-3 mb-4 justify-center w-full">
+        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
+          <Icon className="h-6 w-6 text-gray-900" />
+        </div>
+        <h3 className="text-base md:text-lg font-extrabold text-gray-900 m-0 p-0">{title}</h3>
+      </div>
+      <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed px-2">{description}</p>
+    </motion.div>
+  );
+};
+
+const EarthLoopTesters = ({ data: initialData }: { data?: any }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('overview');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showOnlyProducts, setShowOnlyProducts] = useState(false);
+
+  // Slug Validation: Only use initialData if it belongs to this page
+  const [wpData, setWpData] = useState<any>(() => {
+    if (initialData?.slug === 'earth-loop-testers') {
+      return initialData.acf || initialData;
+    }
+    return null;
+  });
+  const [isLoading, setIsLoading] = useState(!wpData);
+
+  useEffect(() => {
+    if (wpData) return;
+
+    const fetchWpData = async () => {
+      try {
+        const response = await fetch('https://cms.atandra.in/wp-json/wp/v2/pages?slug=earth-loop-testers');
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setWpData(data[0].acf || data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching WP data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWpData();
+  }, [wpData]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -122,6 +185,51 @@ const EarthLoopTesters = () => {
     { id: 'comparison', label: 'Compare', icon: Star }
   ];
 
+  // Parse features from WP or use defaults
+  const displayFeatures = React.useMemo(() => {
+    try {
+      if (wpData?.features_json) {
+        const trimmed = wpData.features_json.trim();
+        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+          return JSON.parse(trimmed);
+        } else {
+          // Handle plain text format (blocks separated by double newlines)
+          const blocks = trimmed.split(/\r?\n\s*\r?\n/);
+          return blocks.map(block => {
+            const lines = block.split(/\r?\n/).filter(l => l.trim());
+            if (lines.length === 0) return null;
+
+            let title = lines[0]?.trim() || "";
+            let description = lines.slice(1).join(" ").trim() || "";
+
+            // Check for Title - Description or Title : Description
+            const separators = [" – ", " - ", " : ", " :"];
+            for (const sep of separators) {
+              if (title.includes(sep)) {
+                const parts = title.split(sep);
+                title = parts[0]?.trim();
+                description = parts.slice(1).join(sep).trim() + (description ? " " + description : "");
+                break;
+              }
+            }
+
+            return { title, description };
+          }).filter(f => f && f.title);
+        }
+      }
+    } catch (e) {
+      console.error("Error parsing features_json:", e);
+    }
+    return [
+      { title: "Non-Invasive Testing", description: "Measure earth resistance without disconnecting the ground system, saving time and maintaining safety." },
+      { title: "High Precision", description: "Advanced clamp-on technology provides accurate measurements of loop resistance with industry-leading precision." },
+      { title: "Safety & Compliance", description: "Test and verify grounding systems for compliance with safety standards and regulations." },
+      { title: "Data Logging & Memory", description: "Extensive memory for storing measurements with time/date stamps and easy data transfer capabilities." },
+      { title: "OLED Display", description: "Large, 152-segment multi-function OLED display for clear readings in all lighting conditions." },
+      { title: "User-Friendly Interface", description: "Intuitive controls with automatic features like auto power off and hold functions for ease of use." }
+    ];
+  }, [wpData?.features_json]);
+
   // Hero Section (updated to match PowerQuality style)
   const HeroSection = () => {
     const handleViewBrochure = () => window.open('/public/T&M%20April%202025.pdf', '_blank');
@@ -146,20 +254,20 @@ const EarthLoopTesters = () => {
                 className="space-y-4 text-center lg:text-left lg:w-1/2"
               >
                 <div className="inline-block bg-yellow-400 py-1 px-3 rounded-full mb-2">
-                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">KRYKARD Earth Loop Testers</span>
+                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">{wpData?.hero_badge || "KRYKARD Earth Loop Testers"}</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-tight font-['Open_Sans']">
-                  EARTH LOOP TESTERS
+                  {wpData?.hero_title || "EARTH LOOP TESTERS"}
                 </h1>
                 <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed font-medium text-justify lg:text-left font-['Open_Sans']">
-                  Non-invasive measurement technology for efficient ground resistance testing without disconnecting the ground system.
+                  {wpData?.hero_description || "Non-invasive measurement technology for efficient ground resistance testing without disconnecting the ground system."}
                 </p>
                 <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
                   <Link to="/contact/sales">
                     <Button
                       className="px-4 py-2 md:px-6 md:py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-lg shadow-md transition duration-300 flex items-center space-x-2 font-['Open_Sans']"
                     >
-                      <span>Request Demo</span>
+                      <span>{wpData?.hero_cta_text || wpData?.hero_button_text || "Request Demo"}</span>
                       <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                     </Button>
                   </Link>
@@ -181,8 +289,8 @@ const EarthLoopTesters = () => {
               >
                 <div className="relative">
                   <img
-                    src="/earth-loop-tester.png"
-                    alt="KRYKARD Earth Loop Testers for Non-Invasive Ground Resistance Testing"
+                    src={typeof wpData?.hero_image === 'string' ? wpData.hero_image : (wpData?.hero_image?.url || "/earth-loop-tester.png")}
+                    alt={wpData?.hero_title || "KRYKARD Earth Loop Testers for Non-Invasive Ground Resistance Testing"}
                     className="w-full max-w-md h-auto object-contain"
                     width={800}
                     height={600}
@@ -202,25 +310,6 @@ const EarthLoopTesters = () => {
     );
   };
 
-  // Feature Highlight Component
-  const FeatureHighlight = ({ icon: Icon, title, description }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-      className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-4 h-full bg-transparent flex flex-col items-center text-center"
-      style={{ fontFamily: 'Open Sans, sans-serif' }}
-    >
-      <div className="flex flex-row items-center gap-3 mb-2 justify-center w-full">
-        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center">
-          <Icon className="h-6 w-6 text-gray-900" />
-        </div>
-        <h3 className="text-base md:text-lg font-bold text-gray-900 m-0 p-0">{title}</h3>
-      </div>
-      <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed">{description}</p>
-    </motion.div>
-  );
 
   // Product Overview Card Component (following power quality design pattern)
   const ProductOverviewCard = ({ product }) => (
@@ -317,7 +406,7 @@ const EarthLoopTesters = () => {
     return (
       <div className="comparison-table bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full" style={{ fontFamily: 'Open Sans, sans-serif', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-6">
-          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">Model Comparison</h3>
+          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">{wpData?.comparison_title || wpData?.comparison_table_title || "Model Comparison"}</h3>
         </div>
         <div className="p-6 overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
@@ -388,206 +477,189 @@ const EarthLoopTesters = () => {
   return (
     <>
       <SeoHead
-        title="KRYKARD Earth Loop Testers | Atandra"
-        description="KRYKARD earth loop testers offer non-invasive clamp-on technology for safe and accurate ground resistance testing in electrical installations."
-        keywords="earth loop testers, power quality analyzer, energy monitoring, electrical diagnostics, harmonics measurement, industrial power audit, PQ compliance"
+        title={wpData?.seo_title || "KRYKARD Earth Loop Testers | Atandra"}
+        description={wpData?.seo_description || "KRYKARD earth loop testers offer non-invasive clamp-on technology for safe and accurate ground resistance testing in electrical installations."}
+        keywords={wpData?.seo_keywords || "earth loop testers, power quality analyzer, energy monitoring, electrical diagnostics, harmonics measurement, industrial power audit, PQ compliance"}
         canonical="https://atandra.in/measure/earth-loop-testers"
-        ogImage="/earth-loop-tester.png"
+        ogImage={wpData?.seo_og_image || "/earth-loop-tester.png"}
         jsonLd={jsonLd}
         preloadImage="/earth-loop-tester.png"
       />
       <PageLayout hideHero={true} hideBreadcrumbs={true}>
-        {/* Hide Breadcrumbs and Remove Top Padding */}
-        <style>{`
-        nav.mb-10 { display: none !important; }
-        .py-16.xs\\:py-20.sm\\:py-24 { padding-top: 0 !important; }
-      `}</style>
-
-        {/* Show Hero Section only when not in products-only view AND on overview tab */}
-        {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
-
-        {/* Navigation - Always show after hero section for normal view */}
-        {!showOnlyProducts && <Navigation />}
-
-        {/* Show only products view */}
-        {showOnlyProducts ? (
-          <>
-            {/* Navigation for products-only view */}
-            <Navigation />
-            {/* Main Title */}
-            <div className="w-full py-6 text-center">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
-                Earth Loop Testers
-              </h1>
-            </div>
-            {/* Product Cards Section */}
-            <section id="products-section" className="py-12 md:py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-10"
-                >
-                  <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                    PROFESSIONAL SERIES
-                  </div>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                    Our Earth Loop Tester Range
-                  </h2>
-                  <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                    Advanced solutions for non-invasive ground resistance testing
-                  </p>
-                </motion.div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
-                  {products.map((product) => (
-                    <ProductOverviewCard key={product.id} product={product} />
-                  ))}
-                </div>
-              </div>
-            </section>
-          </>
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+          </div>
         ) : (
           <>
-            {/* Content based on active tab */}
-            <AnimatePresence mode="wait">
-              {activeTab === 'overview' && (
-                <motion.div
-                  key="overview"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Product Overview Section */}
-                  <section id="products-section" className="py-12 md:py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          PRODUCTS
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Our Earth Loop Tester Range
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                          Advanced solutions for non-invasive ground resistance testing
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
-                        {products.map((product) => (
-                          <ProductOverviewCard key={product.id} product={product} />
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Key Features Section */}
-                  <section className="py-8 md:py-12 bg-yellow-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-14"
-                      >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
-                          Key Features
-                        </h2>
-                        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
-                          Discover the standout features that make our earth loop testers the preferred choice for professionals.
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-                        <FeatureHighlight
-                          icon={Zap}
-                          title="Non-Invasive Testing"
-                          description="Measure earth resistance without disconnecting the ground system, saving time and maintaining safety."
-                        />
-                        <FeatureHighlight
-                          icon={Gauge}
-                          title="High Precision"
-                          description="Advanced clamp-on technology provides accurate measurements of loop resistance with industry-leading precision."
-                        />
-                        <FeatureHighlight
-                          icon={Shield}
-                          title="Safety & Compliance"
-                          description="Test and verify grounding systems for compliance with safety standards and regulations."
-                        />
-                        <FeatureHighlight
-                          icon={FileText}
-                          title="Data Logging & Memory"
-                          description="Extensive memory for storing measurements with time/date stamps and easy data transfer capabilities."
-                        />
-                        <FeatureHighlight
-                          icon={Check}
-                          title="OLED Display"
-                          description="Large, 152-segment multi-function OLED display for clear readings in all lighting conditions."
-                        />
-                        <FeatureHighlight
-                          icon={Menu}
-                          title="User-Friendly Interface"
-                          description="Intuitive controls with automatic features like auto power off and hold functions for ease of use."
-                        />
-                      </div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-
-              {activeTab === 'comparison' && (
-                <motion.div
-                  key="comparison"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Comparison Section */}
-                  <section className="py-12 md:py-16 min-h-screen bg-gray-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          COMPARISON
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Compare Our Models
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
-                          Find the perfect earth loop tester for your specific requirements
-                        </p>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-full"
-                      >
-                        <ComparisonTable />
-                      </motion.div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        )}
-
-        {/* SEO Content Section - 250+ Words in Collapsible Details */}
-        <section className="py-4 md:py-6 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Hide Breadcrumbs and Remove Top Padding */}
             <style>{`
+            nav.mb-10 { display: none !important; }
+            .py-16.xs\\:py-20.sm\\:py-24 { padding-top: 0 !important; }
+          `}</style>
+
+            {/* Show Hero Section only when not in products-only view AND on overview tab */}
+            {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
+
+            {/* Navigation - Always show after hero section for normal view */}
+            {!showOnlyProducts && <Navigation />}
+
+            {/* Show only products view */}
+            {showOnlyProducts ? (
+              <>
+                {/* Navigation for products-only view */}
+                <Navigation />
+                {/* Main Title */}
+                <div className="w-full py-6 text-center">
+                  <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
+                    Earth Loop Testers
+                  </h1>
+                </div>
+                {/* Product Cards Section */}
+                <section id="products-section" className="py-12 md:py-16">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6 }}
+                      className="text-center mb-10"
+                    >
+                      <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                        {wpData?.products_badge || "PROFESSIONAL SERIES"}
+                      </div>
+                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                        {wpData?.products_title || "Our Earth Loop Tester Range"}
+                      </h2>
+                      <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
+                        {wpData?.products_description || "Advanced solutions for non-invasive ground resistance testing"}
+                      </p>
+                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+                      {products.map((product) => (
+                        <ProductOverviewCard key={product.id} product={product} />
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              </>
+            ) : (
+              <>
+                {/* Content based on active tab */}
+                <AnimatePresence mode="wait">
+                  {activeTab === 'overview' && (
+                    <motion.div
+                      key="overview"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Product Overview Section */}
+                      <section id="products-section" className="py-12 md:py-16">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-10"
+                          >
+                            <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                              {wpData?.products_badge || "PRODUCTS"}
+                            </div>
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                              {wpData?.products_title || "Our Earth Loop Tester Range"}
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
+                              {wpData?.products_description || "Advanced solutions for non-invasive ground resistance testing"}
+                            </p>
+                          </motion.div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8">
+                            {products.map((product) => (
+                              <ProductOverviewCard key={product.id} product={product} />
+                            ))}
+                          </div>
+                        </div>
+                      </section>
+
+                      {/* Key Features Section */}
+                      <section className="py-8 md:py-12 bg-yellow-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-14"
+                          >
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
+                              {wpData?.features_title || "Key Features"}
+                            </h2>
+                            <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
+                              {wpData?.features_description || "Discover the standout features that make our earth loop testers the preferred choice for professionals."}
+                            </p>
+                          </motion.div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+                            {displayFeatures.map((feature, index) => (
+                              <FeatureHighlight
+                                key={index}
+                                title={feature.title}
+                                description={feature.description}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </section>
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'comparison' && (
+                    <motion.div
+                      key="comparison"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Comparison Section */}
+                      <section className="py-12 md:py-16 min-h-screen bg-gray-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="text-center mb-10"
+                          >
+                            <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                              {wpData?.comparison_badge || "COMPARISON"}
+                            </div>
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                              {wpData?.comparison_title || "Compare Our Models"}
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
+                              {wpData?.comparison_description || "Find the perfect earth loop tester for your specific requirements"}
+                            </p>
+                          </motion.div>
+                          <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="w-full"
+                          >
+                            <ComparisonTable />
+                          </motion.div>
+                        </div>
+                      </section>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
+
+            {/* SEO Content Section - 250+ Words in Collapsible Details */}
+            <section className="py-4 md:py-6 bg-white">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <style>{`
               .seo-details-earthloop summary {
                 list-style: none;
               }
@@ -596,76 +668,76 @@ const EarthLoopTesters = () => {
               }
             `}</style>
 
-            <details className="seo-details-earthloop group w-full">
-              <summary className="cursor-pointer text-base font-semibold text-gray-900 py-2 px-4 bg-yellow-50 hover:bg-yellow-100 transition-all rounded-lg flex items-center gap-2 w-fit mx-auto">
-                <span>Learn More</span>
-                <span className="text-yellow-600 group-open:rotate-180 transition-transform duration-300 text-xl">▼</span>
-              </summary>
+                <details className="seo-details-earthloop group w-full">
+                  <summary className="cursor-pointer text-base font-semibold text-gray-900 py-2 px-4 bg-yellow-50 hover:bg-yellow-100 transition-all rounded-lg flex items-center gap-2 w-fit mx-auto">
+                    <span>Learn More</span>
+                    <span className="text-yellow-600 group-open:rotate-180 transition-transform duration-300 text-xl">▼</span>
+                  </summary>
 
-              <div className="px-4 py-4 mt-2 border border-yellow-200 rounded-lg bg-white">
-                <div className="prose prose-sm max-w-none">
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4 first:mt-0">
-                    Understanding Earth Loop Testing and Loop Resistance Measurement
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Earth loop testers, also known as loop impedance testers or earth loop resistance testers, are specialized instruments designed to measure the loop impedance of electrical circuits without disconnecting the circuit. These professional-grade tools are essential for electrical safety testing, as they verify that protective devices like circuit breakers and fuses will operate correctly in the event of a fault. Loop impedance measurement is critical for ensuring compliance with electrical safety standards and verifying that fault protection systems function as designed. KRYKARD earth loop testers provide non-intrusive measurement capabilities using clamp-on technology, enabling safe and efficient testing of live electrical circuits in industrial, commercial, and residential applications.
-                  </p>
+                  <div className="px-4 py-4 mt-2 border border-yellow-200 rounded-lg bg-white">
+                    <div className="prose prose-sm max-w-none">
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4 first:mt-0">
+                        Understanding Earth Loop Testing and Loop Resistance Measurement
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3">
+                        Earth loop testers, also known as loop impedance testers or earth loop resistance testers, are specialized instruments designed to measure the loop impedance of electrical circuits without disconnecting the circuit. These professional-grade tools are essential for electrical safety testing, as they verify that protective devices like circuit breakers and fuses will operate correctly in the event of a fault. Loop impedance measurement is critical for ensuring compliance with electrical safety standards and verifying that fault protection systems function as designed. KRYKARD earth loop testers provide non-intrusive measurement capabilities using clamp-on technology, enabling safe and efficient testing of live electrical circuits in industrial, commercial, and residential applications.
+                      </p>
 
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Applications and Benefits of Professional Earth Loop Testers
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    KRYKARD earth loop testers are specifically designed for professionals who require accurate loop impedance measurement in ground resistance testing, electrical safety verification, industrial facility monitoring, installation testing, maintenance inspections, and compliance testing. Our comprehensive range includes models with clamping diameters from Ø32mm to Ø55mm, enabling measurement of various conductor sizes. These instruments provide loop resistance measurement up to 1,500 Ω with accuracy of ±1.5%, loop inductance measurement up to 500μH, ground voltage measurement up to 75V, and current measurement up to 39.99A. With features like large OLED displays, automatic calibration, HOLD and PRE-HOLD functions, memory storage for up to 2,000 measurements, and Bluetooth connectivity with PC interface and Android app support, KRYKARD earth loop testers deliver comprehensive testing solutions for professional applications.
-                  </p>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
+                        Applications and Benefits of Professional Earth Loop Testers
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3">
+                        KRYKARD earth loop testers are specifically designed for professionals who require accurate loop impedance measurement in ground resistance testing, electrical safety verification, industrial facility monitoring, installation testing, maintenance inspections, and compliance testing. Our comprehensive range includes models with clamping diameters from Ø32mm to Ø55mm, enabling measurement of various conductor sizes. These instruments provide loop resistance measurement up to 1,500 Ω with accuracy of ±1.5%, loop inductance measurement up to 500μH, ground voltage measurement up to 75V, and current measurement up to 39.99A. With features like large OLED displays, automatic calibration, HOLD and PRE-HOLD functions, memory storage for up to 2,000 measurements, and Bluetooth connectivity with PC interface and Android app support, KRYKARD earth loop testers deliver comprehensive testing solutions for professional applications.
+                      </p>
 
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Technical Excellence and Advanced Features
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    KRYKARD earth loop testers offer exceptional performance with measurement frequencies of 2,083 Hz for loop resistance and transposition frequencies of 50, 60, 128, or 2,083 Hz for accurate measurements in various power system environments. The instruments feature large, multi-function OLED displays with up to 1,500 counts for loop ohmmeter and 4,000 counts for ammeter functions, providing clear visualization of measurement results. Advanced features include alarm functions for out-of-range conditions, automatic calibration of jaw gap, automatic power-off for battery conservation, and comprehensive data management with memory storage and communication capabilities. Bluetooth connectivity enables wireless data transfer to mobile devices and computers, while PC interface and Android app support provide convenient data analysis and report generation.
-                  </p>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
+                        Technical Excellence and Advanced Features
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3">
+                        KRYKARD earth loop testers offer exceptional performance with measurement frequencies of 2,083 Hz for loop resistance and transposition frequencies of 50, 60, 128, or 2,083 Hz for accurate measurements in various power system environments. The instruments feature large, multi-function OLED displays with up to 1,500 counts for loop ohmmeter and 4,000 counts for ammeter functions, providing clear visualization of measurement results. Advanced features include alarm functions for out-of-range conditions, automatic calibration of jaw gap, automatic power-off for battery conservation, and comprehensive data management with memory storage and communication capabilities. Bluetooth connectivity enables wireless data transfer to mobile devices and computers, while PC interface and Android app support provide convenient data analysis and report generation.
+                      </p>
 
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Why Choose KRYKARD Earth Loop Testers?
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    KRYKARD earth loop testers combine precision engineering with non-intrusive measurement technology, delivering professional-grade loop impedance testing in reliable packages. With features like clamp-on measurement capability, high accuracy (±1.5%), large OLED displays, automatic calibration, comprehensive memory storage, Bluetooth connectivity, PC interface, and Android app support, KRYKARD earth loop testers are trusted by professionals across India for ground resistance testing, electrical safety verification, industrial facility monitoring, installation testing, maintenance inspections, and compliance testing. Whether you need to verify loop impedance, test electrical safety, monitor industrial facilities, or ensure compliance with safety standards, KRYKARD earth loop testers provide the reliability and functionality required for professional loop impedance measurement applications.
-                  </p>
-                </div>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
+                        Why Choose KRYKARD Earth Loop Testers?
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        KRYKARD earth loop testers combine precision engineering with non-intrusive measurement technology, delivering professional-grade loop impedance testing in reliable packages. With features like clamp-on measurement capability, high accuracy (±1.5%), large OLED displays, automatic calibration, comprehensive memory storage, Bluetooth connectivity, PC interface, and Android app support, KRYKARD earth loop testers are trusted by professionals across India for ground resistance testing, electrical safety verification, industrial facility monitoring, installation testing, maintenance inspections, and compliance testing. Whether you need to verify loop impedance, test electrical safety, monitor industrial facilities, or ensure compliance with safety standards, KRYKARD earth loop testers provide the reliability and functionality required for professional loop impedance measurement applications.
+                      </p>
+                    </div>
+                  </div>
+                </details>
               </div>
-            </details>
-          </div>
-        </section>
+            </section>
 
-        {/* Contact Section - Always show at bottom */}
-        <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="pb-4"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Need More Information?
-              </h2>
-              <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
-                Our team of experts is ready to help you with product specifications, custom solutions, and pricing.
-              </p>
-              <Link
-                to="/contact/sales"
-                className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
-              >
-                <span>Contact Our Experts</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
+            {/* Contact Section - Always show at bottom */}
+            <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="pb-4"
+                >
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                    {wpData?.bottom_cta_title || "Need More Information?"}
+                  </h2>
+                  <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
+                    {wpData?.bottom_cta_description || "Our team of experts is ready to help you with product specifications, custom solutions, and pricing."}
+                  </p>
+                  <Link
+                    to="/contact/sales"
+                    className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
+                  >
+                    <span>{wpData?.bottom_cta_button_text || "Contact Our Experts"}</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </motion.div>
+              </div>
+            </section>
 
-        {/* CSS Override for table borders visibility */}
-        <style>{`
+            {/* CSS Override for table borders visibility */}
+            <style>{`
         .comparison-table {
           display: block !important;
           visibility: visible !important;
@@ -691,6 +763,8 @@ const EarthLoopTesters = () => {
           border-bottom: 1px dotted #d1d5db !important;
         }
       `}</style>
+          </>
+        )}
       </PageLayout>
     </>
   );

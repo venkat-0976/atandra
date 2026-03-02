@@ -56,8 +56,8 @@ const Sales = () => {
   });
 
   // Your email service endpoint URL
-  const EMAIL_API_ENDPOINT = "https://atandraemail-590892650418.us-central1.run.app/api/email/send-contact-emails";
-  // const EMAIL_API_ENDPOINT = "http://localhost:8000/api/email/send-contact-emails";
+  // const EMAIL_API_ENDPOINT = "https://atandraemail-590892650418.us-central1.run.app/api/email/send-contact-emails";
+  const EMAIL_API_ENDPOINT = "http://localhost:8000/api/email/send-contact-emails";
   // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { id, value } = e.target;

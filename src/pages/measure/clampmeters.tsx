@@ -16,12 +16,76 @@ import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import SeoHead from '@/seo/SeoHead';
 
-const ClampMeters = () => {
+// Feature Highlight Component
+const FeatureHighlight = ({ title, description }: { title: string, description: string }) => {
+  const getFeatureIcon = (title: string) => {
+    const normalized = title.toLowerCase().trim();
+    if (normalized.includes('rms') || normalized.includes('accuracy') || normalized.includes('gauge')) return Gauge;
+    if (normalized.includes('non-intrusive') || normalized.includes('clamp') || normalized.includes('zap') || normalized.includes('current')) return Zap;
+    if (normalized.includes('safety') || normalized.includes('shield')) return Shield;
+    if (normalized.includes('data') || normalized.includes('storage') || normalized.includes('logging') || normalized.includes('bluetooth') || normalized.includes('file')) return FileText;
+    if (normalized.includes('harmonics') || normalized.includes('quality') || normalized.includes('chart') || normalized.includes('analysis')) return BarChart;
+    if (normalized.includes('solar') || normalized.includes('pv') || normalized.includes('star')) return Star;
+    if (normalized.includes('user-friendly') || normalized.includes('interface') || normalized.includes('menu')) return Menu;
+    return Zap; // Default
+  };
+
+  const Icon = getFeatureIcon(title);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-6 h-full bg-yellow-50/50 flex flex-col items-center text-center"
+      style={{ fontFamily: 'Open Sans, sans-serif' }}
+    >
+      <div className="flex flex-row items-center gap-3 mb-4 justify-center w-full">
+        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
+          <Icon className="h-6 w-6 text-gray-900" />
+        </div>
+        <h3 className="text-base md:text-lg font-extrabold text-gray-900 m-0 p-0">{title}</h3>
+      </div>
+      <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed px-2">{description}</p>
+    </motion.div>
+  );
+};
+
+const ClampMeters = ({ data: initialData }: { data?: any }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('overview');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showOnlyProducts, setShowOnlyProducts] = useState(false);
+
+  // Slug Validation: Only use initialData if it belongs to this page
+  const [wpData, setWpData] = useState<any>(() => {
+    if (initialData?.slug === 'clamp-meters') {
+      return initialData.acf || initialData;
+    }
+    return null;
+  });
+  const [isLoading, setIsLoading] = useState(!wpData);
+
+  useEffect(() => {
+    if (wpData) return;
+
+    const fetchWpData = async () => {
+      try {
+        const response = await fetch('https://cms.atandra.in/wp-json/wp/v2/pages?slug=clamp-meters');
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setWpData(data[0].acf || data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching WP data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWpData();
+  }, [wpData]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -142,6 +206,51 @@ const ClampMeters = () => {
     { id: 'comparison', label: 'Compare', icon: Star }
   ];
 
+  // Parse features from WP or use defaults
+  const displayFeatures = React.useMemo(() => {
+    try {
+      if (wpData?.features_json) {
+        const trimmed = wpData.features_json.trim();
+        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+          return JSON.parse(trimmed);
+        } else {
+          // Handle plain text format (blocks separated by double newlines)
+          const blocks = trimmed.split(/\r?\n\s*\r?\n/);
+          return blocks.map(block => {
+            const lines = block.split(/\r?\n/).filter(l => l.trim());
+            if (lines.length === 0) return null;
+
+            let title = lines[0]?.trim() || "";
+            let description = lines.slice(1).join(" ").trim() || "";
+
+            // Check for Title - Description or Title : Description
+            const separators = [" – ", " - ", " : ", " :"];
+            for (const sep of separators) {
+              if (title.includes(sep)) {
+                const parts = title.split(sep);
+                title = parts[0]?.trim();
+                description = parts.slice(1).join(sep).trim() + (description ? " " + description : "");
+                break;
+              }
+            }
+
+            return { title, description };
+          }).filter(f => f && f.title);
+        }
+      }
+    } catch (e) {
+      console.error("Error parsing features_json:", e);
+    }
+    return [
+      { title: "True RMS Accuracy", description: "Accurate measurement of AC and DC currents and voltages for reliable diagnostics." },
+      { title: "Non-Intrusive Measurement", description: "Measure current without breaking the circuit, with large clamping diameters." },
+      { title: "Advanced Power Analysis", description: "Analyze power, harmonics, and more for comprehensive electrical assessment." },
+      { title: "Data Logging & Bluetooth", description: "Select models offer data recording and wireless communication for easy analysis." },
+      { title: "Solar & PV Ready", description: "Special models for high-voltage DC and solar applications." },
+      { title: "Harmonics & Power Quality", description: "Harmonic analysis up to 25th order for power quality troubleshooting." }
+    ];
+  }, [wpData?.features_json]);
+
   // Hero Section (updated to match PowerQuality style)
   const HeroSection = () => {
     const handleViewBrochure = () => window.open('/public/T&M%20April%202025.pdf', '_blank');
@@ -166,20 +275,20 @@ const ClampMeters = () => {
                 className="space-y-4 text-center lg:text-left lg:w-1/2"
               >
                 <div className="inline-block bg-yellow-400 py-1 px-3 rounded-full mb-2">
-                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">KRYKARD Clamp Meter Solutions</span>
+                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">{wpData?.hero_badge || "KRYKARD Clamp Meter Solutions"}</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-tight font-['Open_Sans']">
-                  CLAMP METERS
+                  {wpData?.hero_title || "CLAMP METERS"}
                 </h1>
                 <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed font-medium text-justify lg:text-left font-['Open_Sans']">
-                  Professional-grade clamp meters for accurate, non-intrusive electrical measurements and advanced power analysis.
+                  {wpData?.hero_description || "Professional-grade clamp meters for accurate, non-intrusive electrical measurements and advanced power analysis."}
                 </p>
                 <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
                   <Link to="/contact/sales">
                     <Button
                       className="px-4 py-2 md:px-6 md:py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-lg shadow-md transition duration-300 flex items-center space-x-2 font-['Open_Sans']"
                     >
-                      <span>Request Demo</span>
+                      <span>{wpData?.hero_cta_text || wpData?.hero_button_text || "Request Demo"}</span>
                       <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                     </Button>
                   </Link>
@@ -201,8 +310,8 @@ const ClampMeters = () => {
               >
                 <div className="relative">
                   <img
-                    src="/clamp-meter-group.jpg"
-                    alt="KRYKARD Clamp Meters for Non-Intrusive Current Measurement"
+                    src={typeof wpData?.hero_image === 'string' ? wpData.hero_image : (wpData?.hero_image?.url || "/clamp-meter-group.jpg")}
+                    alt={wpData?.hero_title || "KRYKARD Clamp Meters for Non-Intrusive Current Measurement"}
                     className="w-full max-w-md h-auto object-contain"
                     width={1920}
                     height={1080}
@@ -222,25 +331,6 @@ const ClampMeters = () => {
     );
   };
 
-  // Feature Highlight Component
-  const FeatureHighlight = ({ icon: Icon, title, description }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-      className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-4 h-full bg-transparent flex flex-col items-center text-center"
-      style={{ fontFamily: 'Open Sans, sans-serif' }}
-    >
-      <div className="flex flex-row items-center gap-3 mb-2 justify-center w-full">
-        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center">
-          <Icon className="h-6 w-6 text-gray-900" />
-        </div>
-        <h3 className="text-base md:text-lg font-bold text-gray-900 m-0 p-0">{title}</h3>
-      </div>
-      <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed">{description}</p>
-    </motion.div>
-  );
 
   // Product Overview Card Component (following power quality design pattern)
   const ProductOverviewCard = ({ product }) => (
@@ -337,7 +427,7 @@ const ClampMeters = () => {
     return (
       <div className="comparison-table bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full" style={{ fontFamily: 'Open Sans, sans-serif', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-6">
-          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">Model Comparison</h3>
+          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">{wpData?.comparison_title || wpData?.comparison_table_title || "Model Comparison"}</h3>
         </div>
         <div className="p-6 overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
@@ -413,206 +503,189 @@ const ClampMeters = () => {
   return (
     <>
       <SeoHead
-        title="KRYKARD Clamp Meters | Atandra"
-        description="KRYKARD clamp meters — clamp meter delivering accurate non‑intrusive current measurement and advanced power diagnostics."
-        keywords="clamp meters, power quality analyzer, energy monitoring, electrical diagnostics, harmonics measurement, industrial power audit, PQ compliance"
+        title={wpData?.seo_title || "KRYKARD Clamp Meters | Atandra"}
+        description={wpData?.seo_description || "KRYKARD clamp meters — clamp meter delivering accurate non‑intrusive current measurement and advanced power diagnostics."}
+        keywords={wpData?.seo_keywords || "clamp meters, power quality analyzer, energy monitoring, electrical diagnostics, harmonics measurement, industrial power audit, PQ compliance"}
         canonical="https://atandra.in/measure/clamp-meters"
-        ogImage="https://atandra.in/clamp-meter-group.jpg"
+        ogImage={wpData?.seo_og_image || "https://atandra.in/clamp-meter-group.jpg"}
         jsonLd={jsonLd}
         preloadImage="/clamp-meter-group.jpg"
       />
       <PageLayout hideHero={true} hideBreadcrumbs={true}>
-        {/* Hide Breadcrumbs and Remove Top Padding */}
-        <style>{`
-        nav.mb-10 { display: none !important; }
-        .py-16.xs\\:py-20.sm\\:py-24 { padding-top: 0 !important; }
-      `}</style>
-
-        {/* Show Hero Section only when not in products-only view AND on overview tab */}
-        {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
-
-        {/* Navigation - Always show after hero section for normal view */}
-        {!showOnlyProducts && <Navigation />}
-
-        {/* Show only products view */}
-        {showOnlyProducts ? (
-          <>
-            {/* Navigation for products-only view */}
-            <Navigation />
-            {/* Main Title */}
-            <div className="w-full py-6 text-center">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
-                Clamp Meters
-              </h1>
-            </div>
-            {/* Product Cards Section */}
-            <section id="products-section" className="py-12 md:py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-10"
-                >
-                  <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                    PROFESSIONAL SERIES
-                  </div>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                    Our Clamp Meter Range
-                  </h2>
-                  <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                    Professional solutions for accurate, non-intrusive electrical measurements
-                  </p>
-                </motion.div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                  {products.map((product) => (
-                    <ProductOverviewCard key={product.id} product={product} />
-                  ))}
-                </div>
-              </div>
-            </section>
-          </>
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div>
+          </div>
         ) : (
           <>
-            {/* Content based on active tab */}
-            <AnimatePresence mode="wait">
-              {activeTab === 'overview' && (
-                <motion.div
-                  key="overview"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Product Overview Section */}
-                  <section id="products-section" className="py-12 md:py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          PRODUCTS
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Our Clamp Meter Range
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                          Professional solutions for accurate, non-intrusive electrical measurements
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-                        {products.map((product) => (
-                          <ProductOverviewCard key={product.id} product={product} />
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Key Features Section */}
-                  <section className="py-8 md:py-12 bg-yellow-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-14"
-                      >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
-                          Key Features
-                        </h2>
-                        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
-                          Discover the standout features that make our clamp meters the preferred choice for professionals.
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-                        <FeatureHighlight
-                          icon={Zap}
-                          title="True RMS Accuracy"
-                          description="Accurate measurement of AC and DC currents and voltages for reliable diagnostics."
-                        />
-                        <FeatureHighlight
-                          icon={Shield}
-                          title="Non-Intrusive Measurement"
-                          description="Measure current without breaking the circuit, with large clamping diameters."
-                        />
-                        <FeatureHighlight
-                          icon={Gauge}
-                          title="Advanced Power Analysis"
-                          description="Analyze power, harmonics, and more for comprehensive electrical assessment."
-                        />
-                        <FeatureHighlight
-                          icon={FileText}
-                          title="Data Logging & Bluetooth"
-                          description="Select models offer data recording and wireless communication for easy analysis."
-                        />
-                        <FeatureHighlight
-                          icon={Zap}
-                          title="Solar & PV Ready"
-                          description="Special models for high-voltage DC and solar applications."
-                        />
-                        <FeatureHighlight
-                          icon={BarChart}
-                          title="Harmonics & Power Quality"
-                          description="Harmonic analysis up to 25th order for power quality troubleshooting."
-                        />
-                      </div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-
-              {activeTab === 'comparison' && (
-                <motion.div
-                  key="comparison"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Comparison Section */}
-                  <section className="py-12 md:py-16 min-h-screen bg-gray-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          COMPARISON
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Compare Our Models
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
-                          Find the perfect clamp meter for your specific requirements
-                        </p>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-full"
-                      >
-                        <ComparisonTable />
-                      </motion.div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        )}
-
-        {/* SEO Content Section - 250+ Words in Collapsible Details */}
-        <section className="py-4 md:py-6 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Hide Breadcrumbs and Remove Top Padding */}
             <style>{`
+            nav.mb-10 { display: none !important; }
+            .py-16.xs\\:py-20.sm\\:py-24 { padding-top: 0 !important; }
+          `}</style>
+
+            {/* Show Hero Section only when not in products-only view AND on overview tab */}
+            {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
+
+            {/* Navigation - Always show after hero section for normal view */}
+            {!showOnlyProducts && <Navigation />}
+
+            {/* Show only products view */}
+            {showOnlyProducts ? (
+              <>
+                {/* Navigation for products-only view */}
+                <Navigation />
+                {/* Main Title */}
+                <div className="w-full py-6 text-center">
+                  <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
+                    Clamp Meters
+                  </h1>
+                </div>
+                {/* Product Cards Section */}
+                <section id="products-section" className="py-12 md:py-16">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6 }}
+                      className="text-center mb-10"
+                    >
+                      <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                        {wpData?.products_badge || "PROFESSIONAL SERIES"}
+                      </div>
+                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                        {wpData?.products_title || "Our Clamp Meter Range"}
+                      </h2>
+                      <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
+                        {wpData?.products_description || "Professional solutions for accurate, non-intrusive electrical measurements"}
+                      </p>
+                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                      {products.map((product) => (
+                        <ProductOverviewCard key={product.id} product={product} />
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              </>
+            ) : (
+              <>
+                {/* Content based on active tab */}
+                <AnimatePresence mode="wait">
+                  {activeTab === 'overview' && (
+                    <motion.div
+                      key="overview"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Product Overview Section */}
+                      <section id="products-section" className="py-12 md:py-16">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-10"
+                          >
+                            <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                              {wpData?.products_badge || "PRODUCTS"}
+                            </div>
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                              {wpData?.products_title || "Our Clamp Meter Range"}
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
+                              {wpData?.products_description || "Professional solutions for accurate, non-intrusive electrical measurements"}
+                            </p>
+                          </motion.div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-8">
+                            {products.map((product) => (
+                              <ProductOverviewCard key={product.id} product={product} />
+                            ))}
+                          </div>
+                        </div>
+                      </section>
+
+                      {/* Key Features Section */}
+                      <section className="py-8 md:py-12 bg-yellow-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-14"
+                          >
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
+                              {wpData?.features_title || "Key Features"}
+                            </h2>
+                            <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
+                              {wpData?.features_description || "Discover the standout features that make our clamp meters the preferred choice for professionals."}
+                            </p>
+                          </motion.div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+                            {displayFeatures.map((feature, index) => (
+                              <FeatureHighlight
+                                key={index}
+                                title={feature.title}
+                                description={feature.description}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </section>
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'comparison' && (
+                    <motion.div
+                      key="comparison"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Comparison Section */}
+                      <section className="py-12 md:py-16 min-h-screen bg-gray-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="text-center mb-10"
+                          >
+                            <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                              {wpData?.comparison_badge || "COMPARISON"}
+                            </div>
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                              {wpData?.comparison_title || "Compare Our Models"}
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
+                              {wpData?.comparison_description || "Find the perfect clamp meter for your specific requirements"}
+                            </p>
+                          </motion.div>
+                          <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="w-full"
+                          >
+                            <ComparisonTable />
+                          </motion.div>
+                        </div>
+                      </section>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
+
+            {/* SEO Content Section - 250+ Words in Collapsible Details */}
+            <section className="py-4 md:py-6 bg-white">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <style>{`
               .seo-details-clamp summary {
                 list-style: none;
               }
@@ -621,76 +694,76 @@ const ClampMeters = () => {
               }
             `}</style>
 
-            <details className="seo-details-clamp group w-full">
-              <summary className="cursor-pointer text-base font-semibold text-gray-900 py-2 px-4 bg-yellow-50 hover:bg-yellow-100 transition-all rounded-lg flex items-center gap-2 w-fit  mx-auto">
-                <span>Learn More</span>
-                <span className="text-yellow-600 group-open:rotate-180 transition-transform duration-300 text-xl">▼</span>
-              </summary>
+                <details className="seo-details-clamp group w-full">
+                  <summary className="cursor-pointer text-base font-semibold text-gray-900 py-2 px-4 bg-yellow-50 hover:bg-yellow-100 transition-all rounded-lg flex items-center gap-2 w-fit  mx-auto">
+                    <span>Learn More</span>
+                    <span className="text-yellow-600 group-open:rotate-180 transition-transform duration-300 text-xl">▼</span>
+                  </summary>
 
-              <div className="px-4 py-4 mt-2 border border-yellow-200 rounded-lg bg-white">
-                <div className="prose prose-sm max-w-none">
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4 first:mt-0">
-                    What Are Clamp Meters and How Do They Work?
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Clamp meters, also known as current clamps or clamp-on ammeters, are essential electrical measurement tools that enable professionals to measure current without breaking the circuit. These versatile instruments utilize the principle of electromagnetic induction to detect and measure alternating current (AC) and direct current (DC) flowing through a conductor. Unlike traditional multimeters that require direct contact with the circuit, clamp meters provide non-intrusive measurement capabilities, making them ideal for troubleshooting, maintenance, and safety applications across various industries.
-                  </p>
+                  <div className="px-4 py-4 mt-2 border border-yellow-200 rounded-lg bg-white">
+                    <div className="prose prose-sm max-w-none">
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4 first:mt-0">
+                        What Are Clamp Meters and How Do They Work?
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3">
+                        Clamp meters, also known as current clamps or clamp-on ammeters, are essential electrical measurement tools that enable professionals to measure current without breaking the circuit. These versatile instruments utilize the principle of electromagnetic induction to detect and measure alternating current (AC) and direct current (DC) flowing through a conductor. Unlike traditional multimeters that require direct contact with the circuit, clamp meters provide non-intrusive measurement capabilities, making them ideal for troubleshooting, maintenance, and safety applications across various industries.
+                      </p>
 
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Applications and Use Cases for Professional Clamp Meters
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    KRYKARD clamp meters are designed for professionals who need accurate, non-intrusive electrical measurements in industrial, commercial, and residential applications. Our power clamp meters provide comprehensive power analysis capabilities, measuring voltage, current, power, energy, and power factor in both single-phase and three-phase systems. These instruments are essential for electrical installation testing, industrial maintenance, and power quality analysis. Solar clamp meters are specifically engineered for photovoltaic applications, offering DC voltage measurement up to 1,700V and specialized features for solar panel diagnostics and renewable energy system monitoring.
-                  </p>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
+                        Applications and Use Cases for Professional Clamp Meters
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3">
+                        KRYKARD clamp meters are designed for professionals who need accurate, non-intrusive electrical measurements in industrial, commercial, and residential applications. Our power clamp meters provide comprehensive power analysis capabilities, measuring voltage, current, power, energy, and power factor in both single-phase and three-phase systems. These instruments are essential for electrical installation testing, industrial maintenance, and power quality analysis. Solar clamp meters are specifically engineered for photovoltaic applications, offering DC voltage measurement up to 1,700V and specialized features for solar panel diagnostics and renewable energy system monitoring.
+                      </p>
 
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Advanced Features: Harmonics Analysis and Power Quality
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Our harmonics clamp meters deliver advanced power quality analysis, detecting harmonic distortion up to the 25th order and helping identify electrical issues that can affect equipment performance and energy efficiency. These professional-grade instruments feature True RMS measurement for accurate readings of non-sinusoidal waveforms, Bluetooth connectivity for wireless data transfer, and comprehensive data logging capabilities. With large clamping diameters ranging from 34mm to 60mm, IP-rated protection for harsh environments, and extended measurement ranges up to 3,000A, KRYKARD clamp meters are trusted by professionals across India for accurate electrical diagnostics and troubleshooting.
-                  </p>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
+                        Advanced Features: Harmonics Analysis and Power Quality
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed mb-3">
+                        Our harmonics clamp meters deliver advanced power quality analysis, detecting harmonic distortion up to the 25th order and helping identify electrical issues that can affect equipment performance and energy efficiency. These professional-grade instruments feature True RMS measurement for accurate readings of non-sinusoidal waveforms, Bluetooth connectivity for wireless data transfer, and comprehensive data logging capabilities. With large clamping diameters ranging from 34mm to 60mm, IP-rated protection for harsh environments, and extended measurement ranges up to 3,000A, KRYKARD clamp meters are trusted by professionals across India for accurate electrical diagnostics and troubleshooting.
+                      </p>
 
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Why Choose KRYKARD Clamp Meters?
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    KRYKARD clamp meters combine precision engineering with user-friendly design, delivering reliable measurements for electrical installation testing, industrial maintenance, and power quality analysis. With features like True RMS measurement, large displays with up to 10,000 counts, IP-rated protection, and extended measurement ranges, our clamp meters are trusted by professionals across India for accurate electrical diagnostics and troubleshooting. Whether you need basic current measurement, comprehensive power analysis, solar system monitoring, or advanced harmonics detection, KRYKARD offers a complete range of clamp meters to meet your specific requirements.
-                  </p>
-                </div>
+                      <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
+                        Why Choose KRYKARD Clamp Meters?
+                      </h3>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        KRYKARD clamp meters combine precision engineering with user-friendly design, delivering reliable measurements for electrical installation testing, industrial maintenance, and power quality analysis. With features like True RMS measurement, large displays with up to 10,000 counts, IP-rated protection, and extended measurement ranges, our clamp meters are trusted by professionals across India for accurate electrical diagnostics and troubleshooting. Whether you need basic current measurement, comprehensive power analysis, solar system monitoring, or advanced harmonics detection, KRYKARD offers a complete range of clamp meters to meet your specific requirements.
+                      </p>
+                    </div>
+                  </div>
+                </details>
               </div>
-            </details>
-          </div>
-        </section>
+            </section>
 
-        {/* Contact Section - Always show at bottom */}
-        <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="pb-4"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Need More Information?
-              </h2>
-              <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
-                Our team of experts is ready to help you with product specifications, custom solutions, and pricing.
-              </p>
-              <Link
-                to="/contact/sales"
-                className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
-              >
-                <span>Contact Our Experts</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
+            {/* Contact Section - Always show at bottom */}
+            <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="pb-4"
+                >
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                    {wpData?.bottom_cta_title || "Need More Information?"}
+                  </h2>
+                  <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
+                    {wpData?.bottom_cta_description || "Our team of experts is ready to help you with product specifications, custom solutions, and pricing."}
+                  </p>
+                  <Link
+                    to="/contact/sales"
+                    className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
+                  >
+                    <span>{wpData?.bottom_cta_button_text || "Contact Our Experts"}</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </motion.div>
+              </div>
+            </section>
 
-        {/* CSS Override for table borders visibility */}
-        <style>{`
+            {/* CSS Override for table borders visibility */}
+            <style>{`
         .comparison-table {
           display: block !important;
           visibility: visible !important;
@@ -716,6 +789,8 @@ const ClampMeters = () => {
           border-bottom: 1px dotted #d1d5db !important;
         }
       `}</style>
+          </>
+        )}
       </PageLayout>
     </>
   );

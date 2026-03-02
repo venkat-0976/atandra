@@ -25,12 +25,41 @@ const tabs = [
   { id: 'comparison', label: 'Compare', icon: Star }
 ];
 
-const InsulationTesters = () => {
+const InsulationTesters = ({ data: initialData }: { data?: any }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('overview');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showOnlyProducts, setShowOnlyProducts] = useState(false);
+  // Slug Validation: Only use initialData if it belongs to this page
+  const [wpData, setWpData] = useState<any>(() => {
+    if (initialData?.slug === 'insulation-testers') {
+      return initialData.acf || initialData;
+    }
+    return null;
+  });
+  const [isLoading, setIsLoading] = useState(!wpData);
+
+  useEffect(() => {
+    if (wpData) return;
+
+    const fetchWpData = async () => {
+      try {
+        const response = await fetch('https://cms.atandra.in/wp-json/wp/v2/pages?slug=insulation-testers');
+        if (!response.ok) throw new Error('Response not ok');
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setWpData(data[0].acf || data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching WordPress data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWpData();
+  }, [wpData]);
 
   // Convert insulationTesters object to array for easier handling
   const products = Object.values(insulationTesters).map(product => ({
@@ -63,6 +92,11 @@ const InsulationTesters = () => {
   const HeroSection = () => {
     const handleViewBrochure = () => window.open('/public/T&M%20April%202025.pdf', '_blank');
 
+    const heroTitle = wpData?.hero_title || "INSULATION TESTERS";
+    const heroDescription = wpData?.hero_description || "Professional-grade insulation testers for precise measurements and reliable results in electrical maintenance and troubleshooting.";
+    const heroBadge = wpData?.hero_badge || "KRYKARD Insulation Testing Solutions";
+    const heroImage = typeof wpData?.hero_image === 'string' ? wpData.hero_image : (wpData?.hero_image?.url || "/Insulation-tester-groupimage-01.png");
+
     return (
       <div className="relative py-8 md:py-12 overflow-hidden font-['Open_Sans']">
         {/* Hero Background Elements */}
@@ -84,30 +118,23 @@ const InsulationTesters = () => {
                 className="space-y-4 text-center lg:text-left lg:w-1/2"
               >
                 <div className="inline-block bg-yellow-400 py-1 px-3 rounded-full mb-2">
-                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">KRYKARD Insulation Testing Solutions</span>
+                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">{heroBadge}</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-tight font-['Open_Sans']">
-                  INSULATION TESTERS
+                  {heroTitle}
                 </h1>
                 <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed font-medium text-justify lg:text-left font-['Open_Sans']">
-                  Professional-grade insulation testers for precise measurements and reliable results in electrical maintenance and troubleshooting.
+                  {heroDescription}
                 </p>
                 <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
-                  <Link to="/contact/sales">
+                  <Link to={wpData?.hero_cta_link || "/contact/sales"}>
                     <Button
                       className="px-4 py-2 md:px-6 md:py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-lg shadow-md transition duration-300 flex items-center space-x-2 font-['Open_Sans']"
                     >
-                      <span>Request Demo</span>
+                      <span>{wpData?.hero_cta_text || "Request Demo"}</span>
                       <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                     </Button>
                   </Link>
-                  {/* <Button
-                    className="px-4 py-2 md:px-6 md:py-3 bg-white border-2 border-yellow-400 text-gray-900 font-semibold rounded-lg shadow-sm transition duration-300 hover:bg-yellow-50 flex items-center space-x-2 font-['Open_Sans']"
-                    onClick={handleViewBrochure}
-                  >
-                    <span>View Brochure</span>
-                    <FileText className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-                  </Button> */}
                 </div>
               </motion.div>
               {/* Product Image */}
@@ -119,17 +146,13 @@ const InsulationTesters = () => {
               >
                 <div className="relative">
                   <img
-                    src="/Insulation-tester-groupimage-01.png"
-                    alt="KRYKARD Insulation Testers for Insulation Resistance Measurement"
+                    src={heroImage}
+                    alt={heroTitle}
                     className="w-[600px] h-[500px] object-contain"
-                     width={1920}
-                     height={1080}
-                     loading="eager"
-                     decoding="async"
-                  // onError={e => {
-                  //   e.currentTarget.onerror = null;
-                  //   e.currentTarget.src = 'https://via.placeholder.com/400x300/FFD700/000000?text=Insulation+Tester';
-                  // }}
+                    width={1920}
+                    height={1080}
+                    loading="eager"
+                    decoding="async"
                   />
                 </div>
               </motion.div>
@@ -140,25 +163,82 @@ const InsulationTesters = () => {
     );
   };
 
+  const getFeatureIcon = (title: string) => {
+    const normalized = title.toLowerCase().trim();
+    if (normalized.includes('precision') || normalized.includes('accuracy')) return Gauge;
+    if (normalized.includes('versatile') || normalized.includes('voltage')) return Zap;
+    if (normalized.includes('safety') || normalized.includes('compliance')) return Shield;
+    if (normalized.includes('data') || normalized.includes('storage') || normalized.includes('logging')) return FileText;
+    if (normalized.includes('user-friendly') || normalized.includes('user friendly') || normalized.includes('interface')) return Menu;
+    if (normalized.includes('professional') || normalized.includes('grade') || normalized.includes('quality')) return Award;
+    return Zap; // Default
+  };
+
   // Feature Highlight Component
-  const FeatureHighlight = ({ icon: Icon, title, description }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-      className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-4 h-full bg-transparent flex flex-col items-center text-center"
-      style={{ fontFamily: 'Open Sans, sans-serif' }}
-    >
-      <div className="flex flex-row items-center gap-3 mb-2 justify-center w-full">
-        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center">
-          <Icon className="h-6 w-6 text-gray-900" />
+  const FeatureHighlight = ({ title, description }: { title: string, description: string }) => {
+    const Icon = getFeatureIcon(title);
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-6 h-full bg-yellow-50/50 flex flex-col items-center text-center"
+        style={{ fontFamily: 'Open Sans, sans-serif' }}
+      >
+        <div className="flex flex-row items-center gap-3 mb-4 justify-center w-full">
+          <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110">
+            <Icon className="h-6 w-6 text-gray-900" />
+          </div>
+          <h3 className="text-base md:text-lg font-extrabold text-gray-900 m-0 p-0">{title}</h3>
         </div>
-        <h3 className="text-base md:text-lg font-bold text-gray-900 m-0 p-0">{title}</h3>
+        <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed px-2">{description}</p>
+      </motion.div>
+    );
+  };
+
+  const FeaturesList = () => {
+    let featuresData: any[] = [];
+    try {
+      if (wpData?.features_json) {
+        const trimmed = wpData.features_json.trim();
+        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+          featuresData = JSON.parse(trimmed);
+        } else {
+          // Handle plain text format
+          const blocks = trimmed.split(/\r?\n\s*\r?\n/);
+          featuresData = blocks.map(block => {
+            const lines = block.split(/\r?\n/);
+            return {
+              title: lines[0]?.trim() || "",
+              description: lines.slice(1).join(" ").trim() || ""
+            };
+          }).filter(f => f.title);
+        }
+      }
+    } catch (e) {
+      console.error('Error parsing features_json', e);
+    }
+
+    const staticFeatures = [
+      { title: "Superior Accuracy", description: "High-precision testing with accuracy up to ±3% for reliable insulation resistance measurements." },
+      { title: "Versatile Voltage Ranges", description: "Test voltages from 10V to 15kV to cover all your insulation testing requirements." },
+      { title: "Professional-Grade Quality", description: "Robust construction and reliability for industrial and field applications." },
+      { title: "Advanced Data Storage", description: "Store up to 80,000 measurement points with easy data retrieval and analysis." },
+      { title: "Comprehensive Analysis", description: "Automatic calculation of DAR/PI/DD ratios for detailed insulation health assessment." },
+      { title: "Time-Saving Features", description: "Programmable test durations, timers, and auto-saving for efficient workflow." }
+    ];
+
+    const displayFeatures = featuresData.length > 0 ? featuresData : staticFeatures;
+
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+        {displayFeatures.map((f, i) => (
+          <FeatureHighlight key={i} title={f.title} description={f.description} />
+        ))}
       </div>
-      <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed">{description}</p>
-    </motion.div>
-  );
+    );
+  };
 
   // Product Overview Card Component (following the power quality design pattern)
   const ProductOverviewCard = ({ product }) => (
@@ -249,12 +329,12 @@ const InsulationTesters = () => {
 
   // Comparison Table Component
   const ComparisonTable = () => {
-    console.log('InsulationTesters ComparisonTable rendering with products:', products.length);
+    const comparisonTableTitle = wpData?.comparison_table_title || "Model Comparison";
 
     return (
       <div className="comparison-table bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full" style={{ fontFamily: 'Open Sans, sans-serif', display: 'block', visibility: 'visible', opacity: 1 }}>
         <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-6">
-          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">Model Comparison</h3>
+          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">{comparisonTableTitle}</h3>
         </div>
         <div className="p-6 overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
@@ -304,8 +384,8 @@ const InsulationTesters = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Insulation Testers",
-    "description": "KRYKARD insulation testers — insulation tester designed for reliable insulation resistance measurement in electrical maintenance.",
+    "name": wpData?.hero_title || "Insulation Testers",
+    "description": wpData?.hero_description || "KRYKARD insulation testers — insulation tester designed for reliable insulation resistance measurement in electrical maintenance.",
     "url": "https://atandra.in/measure/insulation-testers",
     "mainEntity": {
       "@type": "ItemList",
@@ -330,11 +410,11 @@ const InsulationTesters = () => {
   return (
     <>
       <SeoHead
-        title="KRYKARD Insulation Testers | Atandra"
-        description="KRYKARD insulation testers — insulation tester designed for reliable insulation resistance measurement in electrical maintenance."
+        title={wpData?.hero_title ? `${wpData.hero_title} | Atandra` : "KRYKARD Insulation Testers | Atandra"}
+        description={wpData?.hero_description || "KRYKARD insulation testers — insulation tester designed for reliable insulation resistance measurement in electrical maintenance."}
         keywords="insulation testers, power quality analyzer, energy monitoring, electrical diagnostics, harmonics measurement, industrial power audit, PQ compliance"
         canonical="https://atandra.in/measure/insulation-testers"
-        ogImage="https://atandra.in/Insulation-tester-groupimage-01.png"
+        ogImage={typeof wpData?.hero_image === 'string' ? wpData.hero_image : (wpData?.hero_image?.url || "https://atandra.in/Insulation-tester-groupimage-01.png")}
         jsonLd={jsonLd}
         preloadImage="/Insulation-tester-groupimage-01.png"
       />
@@ -345,216 +425,195 @@ const InsulationTesters = () => {
         .py-16.xs\\:py-20.sm\\:py-24 { padding-top: 0 !important; }
       `}</style>
 
-        {/* Show Hero Section only when not in products-only view AND on overview tab */}
-        {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
-
-        {/* Navigation - Always show after hero section for normal view */}
-        {!showOnlyProducts && <Navigation />}
-
-        {/* Show only products view */}
-        {showOnlyProducts ? (
-          <>
-            {/* Navigation for products-only view */}
-            <Navigation />
-            {/* Main Title */}
-            <div className="w-full py-6 text-center">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
-                Insulation Testers
-              </h1>
-            </div>
-            {/* Product Cards Section */}
-            <section id="products-section" className="py-12 md:py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-10"
-                >
-                  <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                    PROFESSIONAL SERIES
-                  </div>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                    Our Insulation Tester Range
-                  </h2>
-                  <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                    Explore our comprehensive lineup of professional insulation testers for various voltage ranges and applications.
-                  </p>
-                </motion.div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-                  {products.map((product) => (
-                    <ProductOverviewCard key={product.id} product={product} />
-                  ))}
-                </div>
-              </div>
-            </section>
-          </>
+        {isLoading ? (
+          <div className="min-h-[60vh] flex items-center justify-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full"
+            />
+          </div>
         ) : (
           <>
-            {/* Content based on active tab */}
-            <AnimatePresence mode="wait">
-              {activeTab === 'overview' && (
-                <motion.div
-                  key="overview"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Product Overview Section */}
-                  <section id="products-section" className="py-12 md:py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          PRODUCTS
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Complete Insulation Tester Range
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                          Explore our comprehensive lineup of professional insulation testers for various voltage ranges and applications.
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-8">
-                        {products.map((product) => (
-                          <ProductOverviewCard key={product.id} product={product} />
-                        ))}
+            {/* Show Hero Section only when not in products-only view AND on overview tab */}
+            {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
+
+            {/* Navigation - Always show after hero section for normal view */}
+            {!showOnlyProducts && <Navigation />}
+
+            {/* Show only products view */}
+            {showOnlyProducts ? (
+              <>
+                {/* Navigation for products-only view */}
+                <Navigation />
+                {/* Main Title */}
+                <div className="w-full py-6 text-center">
+                  <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
+                    Insulation Testers
+                  </h1>
+                </div>
+                {/* Product Cards Section */}
+                <section id="products-section" className="py-12 md:py-16">
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6 }}
+                      className="text-center mb-10"
+                    >
+                      <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                        {wpData?.products_badge || "PROFESSIONAL SERIES"}
                       </div>
+                      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                        {wpData?.products_title || "Our Insulation Tester Range"}
+                      </h2>
+                      <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
+                        {wpData?.products_description || "Explore our comprehensive lineup of professional insulation testers for various voltage ranges and applications."}
+                      </p>
+                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                      {products.map((product) => (
+                        <ProductOverviewCard key={product.id} product={product} />
+                      ))}
                     </div>
-                  </section>
-
-                  {/* Key Features Section */}
-                  <section className="py-8 md:py-12 bg-yellow-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-14"
-                      >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
-                          Key Features
-                        </h2>
-                        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
-                          Discover the standout features that make our insulation testers the preferred choice for professionals.
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-                        <FeatureHighlight
-                          icon={Shield}
-                          title="Superior Accuracy"
-                          description="High-precision testing with accuracy up to ±3% for reliable insulation resistance measurements."
-                        />
-                        <FeatureHighlight
-                          icon={Zap}
-                          title="Versatile Voltage Ranges"
-                          description="Test voltages from 10V to 15kV to cover all your insulation testing requirements."
-                        />
-                        <FeatureHighlight
-                          icon={Award}
-                          title="Professional-Grade Quality"
-                          description="Robust construction and reliability for industrial and field applications."
-                        />
-                        <FeatureHighlight
-                          icon={Database}
-                          title="Advanced Data Storage"
-                          description="Store up to 80,000 measurement points with easy data retrieval and analysis."
-                        />
-                        <FeatureHighlight
-                          icon={Gauge}
-                          title="Comprehensive Analysis"
-                          description="Automatic calculation of DAR/PI/DD ratios for detailed insulation health assessment."
-                        />
-                        <FeatureHighlight
-                          icon={FileText}
-                          title="Time-Saving Features"
-                          description="Programmable test durations, timers, and auto-saving for efficient workflow."
-                        />
-                      </div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-
-              {activeTab === 'comparison' && (
-                <motion.div
-                  key="comparison"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Comparison Section */}
-                  <section className="py-12 md:py-16 min-h-screen bg-gray-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          COMPARISON
+                  </div>
+                </section>
+              </>
+            ) : (
+              <>
+                {/* Content based on active tab */}
+                <AnimatePresence mode="wait">
+                  {activeTab === 'overview' && (
+                    <motion.div
+                      key="overview"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Product Overview Section */}
+                      <section id="products-section" className="py-12 md:py-16">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-10"
+                          >
+                            <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                              {wpData?.products_badge || "PRODUCTS"}
+                            </div>
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                              {wpData?.products_title || "Complete Insulation Tester Range"}
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
+                              {wpData?.products_description || "Explore our comprehensive lineup of professional insulation testers for various voltage ranges and applications."}
+                            </p>
+                          </motion.div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+                            {products.map((product) => (
+                              <ProductOverviewCard key={product.id} product={product} />
+                            ))}
+                          </div>
                         </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Compare Our Models
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
-                          Find the perfect insulation tester for your specific requirements
-                        </p>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-full"
-                      >
-                        <ComparisonTable />
-                      </motion.div>
-                    </div>
-                  </section>
+                      </section>
+
+                      {/* Key Features Section */}
+                      <section className="py-8 md:py-12 bg-yellow-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-14"
+                          >
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
+                              {wpData?.features_title || "Key Features"}
+                            </h2>
+                            <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
+                              {wpData?.features_description || "Discover the standout features that make our insulation testers the preferred choice for professionals."}
+                            </p>
+                          </motion.div>
+                          <FeaturesList />
+                        </div>
+                      </section>
+                    </motion.div>
+                  )}
+
+                  {activeTab === 'comparison' && (
+                    <motion.div
+                      key="comparison"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Comparison Section */}
+                      <section className="py-12 md:py-16 min-h-screen bg-gray-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="text-center mb-10"
+                          >
+                            <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                              {wpData?.comparison_badge || "COMPARISON"}
+                            </div>
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                              {wpData?.comparison_title || "Compare Our Models"}
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
+                              {wpData?.comparison_description || "Find the perfect insulation tester for your specific requirements"}
+                            </p>
+                          </motion.div>
+                          <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="w-full"
+                          >
+                            <ComparisonTable />
+                          </motion.div>
+                        </div>
+                      </section>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
+
+            {/* Contact Section - Always show at bottom */}
+            <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="pb-4"
+                >
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                    {wpData?.bottom_cta_title || "Need More Information?"}
+                  </h2>
+                  <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
+                    {wpData?.bottom_cta_description || "Our team of experts is ready to help you with product specifications, custom solutions, and pricing for insulation testing equipment."}
+                  </p>
+                  <Link
+                    to="/contact/sales"
+                    className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
+                  >
+                    <span>{wpData?.bottom_cta_button_text || "Contact Our Experts"}</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        )}
+              </div>
+            </section>
 
-        {/* Contact Section - Always show at bottom */}
-        <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="pb-4"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Need More Information?
-              </h2>
-              <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
-                Our team of experts is ready to help you with product specifications, custom solutions, and pricing for insulation testing equipment.
-              </p>
-              <Link
-                to="/contact/sales"
-                className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
-              >
-                <span>Contact Our Experts</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* CSS Override for table borders visibility */}
-        <style>{`
+            {/* CSS Override for table borders visibility */}
+            <style>{`
         .comparison-table {
           display: block !important;
           visibility: visible !important;
@@ -580,6 +639,8 @@ const InsulationTesters = () => {
           border-bottom: 1px solid #d1d5db !important;
         }
       `}</style>
+          </>
+        )}
       </PageLayout>
     </>
   );

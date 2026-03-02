@@ -11,7 +11,21 @@ node_modules
 dist
 dist-ssr
 *.local
-
+# Python
+venv/
+chatbot/venv/
+__pycache__/
+*.pyc
+# Firebase
+.firebase/
+.firebaserc
+firebase-debug.log
+# OS
+.DS_Store
+Thumbs.db
+# Env
+.env
+.env.*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +36,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+

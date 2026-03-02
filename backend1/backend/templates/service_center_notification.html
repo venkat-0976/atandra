@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Assignment - {{ service_center }} - {{ company_name }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .alert-banner {
+            background-color: #f0fdf4;
+            border-left: 4px solid #059669;
+            padding: 15px 20px;
+            margin: 0;
+            border-top: 1px solid #bbf7d0;
+        }
+        
+        .alert-banner h3 {
+            color: #059669;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .alert-banner p {
+            color: #047857;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px 25px;
+        }
+        
+        .assignment-section {
+            background-color: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .assignment-section h3 {
+            color: #1d4ed8;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ticket-info {
+            background-color: #fef7ff;
+            border: 2px solid #a855f7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .ticket-info h3 {
+            color: #7c3aed;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .ticket-id {
+            background-color: #7c3aed;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .service-center-badge {
+            background-color: #059669;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .product-info {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .product-info h3 {
+            color: #15803d;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #bbf7d0;
+            padding-bottom: 10px;
+        }
+        
+        .customer-info {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .customer-info h3 {
+            color: #1e40af;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 120px;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            color: #1f2937;
+            font-size: 14px;
+            word-break: break-word;
+        }
+        
+        .contact-links a {
+            color: #1e40af;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .contact-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .problem-section {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .problem-section h3 {
+            color: #a16207;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .problem-content {
+            background-color: #fffbeb;
+            padding: 15px;
+            border-radius: 6px;
+            color: #92400e;
+            border-left: 3px solid #fbbf24;
+            line-height: 1.7;
+        }
+        
+        .priority-badge {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        
+        .priority-high {
+            background-color: #fecaca;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+        
+        .priority-medium {
+            background-color: #fed7aa;
+            color: #9a3412;
+            border: 1px solid #fb923c;
+        }
+        
+        .priority-low {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #4ade80;
+        }
+        
+        .action-items {
+            background-color: #eff6ff;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .action-items h3 {
+            color: #1d4ed8;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .action-list {
+            color: #1e40af;
+            padding-left: 20px;
+        }
+        
+        .action-list li {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        
+        .quick-action-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            min-width: 140px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #1e40af;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            background-color: #059669;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #047857;
+        }
+        
+        .btn-warning {
+            background-color: #d97706;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #b45309;
+        }
+        
+        .footer {
+            background-color: #374151;
+            color: #d1d5db;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .footer p {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-label {
+                min-width: auto;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quick-action-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏢 Service Center Assignment</h1>
+            <p>{{ service_center }} Service Center - New Request Assignment</p>
+        </div>
+        
+        <!-- Alert Banner -->
+        <div class="alert-banner">
+            <h3>📋 New Service Request Assigned</h3>
+            <p>A technical support request has been assigned to your service center. Priority: <strong>{{ priority_level | upper }}</strong></p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Assignment Information -->
+            <div class="assignment-section">
+                <h3>🎯 Assignment Details</h3>
+                <div class="service-center-badge">{{ service_center }} Service Center</div>
+                <p><strong>Assigned Date:</strong> {{ submission_date }}</p>
+                <p><strong>Request Type:</strong> {{ call_type }}</p>
+                <p><strong>Service Category:</strong> {{ call_category }}</p>
+                <p><strong>Current Condition:</strong> {{ call_condition }}</p>
+                {% if has_preferred_time %}
+                <p><strong>Customer Preferred Time:</strong> {{ preferred_time }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Ticket Information -->
+            <div class="ticket-info">
+                <h3>🎫 Support Ticket Information</h3>
+                <div class="ticket-id">Ticket ID: {{ ticket_id }}</div>
+                <p><strong>Created:</strong> {{ formatted_submission_date }}</p>
+                <p><strong>Priority Level:</strong>
+                    <span class="priority-badge priority-{{ priority_level }}">{{ priority_level }} Priority</span>
+                </p>
+            </div>
+
+            <!-- Product Information -->
+            <div class="product-info">
+                <h3>📦 Product Information</h3>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Serial Number:</span>
+                        <span class="info-value"><strong>{{ serial_number }}</strong></span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Brand:</span>
+                        <span class="info-value">{{ brand }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Model:</span>
+                        <span class="info-value"><strong>{{ model }}</strong></span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Category:</span>
+                        <span class="info-value">{{ product_category }}</span>
+                    </div>
+
+                    {% if has_rating %}
+                    <div class="info-item">
+                        <span class="info-label">Customer Rating:</span>
+                        <span class="info-value">
+                            <div class="rating-stars">
+                                {% for i in range(rating) %}★{% endfor %}{% for i in range(5 - rating) %}☆{% endfor %}
+                                ({{ rating }}/5)
+                            </div>
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Customer Information -->
+            <div class="customer-info">
+                <h3>👤 Customer Details</h3>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Contact Person:</span>
+                        <span class="info-value"><strong>{{ contact_person }}</strong></span>
+                    </div>
+
+                    {% if has_alternative_contact %}
+                    <div class="info-item">
+                        <span class="info-label">Alternative Contact:</span>
+                        <span class="info-value">{{ alternative_contact }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="info-item">
+                        <span class="info-label">Company:</span>
+                        <span class="info-value"><strong>{{ company }}</strong></span>
+                    </div>
+
+                    <div class="info-item contact-links">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">
+                            <a href="mailto:{{ email }}">{{ email }}</a>
+                        </span>
+                    </div>
+
+                    <div class="info-item contact-links">
+                        <span class="info-label">Mobile:</span>
+                        <span class="info-value">
+                            <a href="tel:{{ mobile_number }}">{{ mobile_number }}</a>
+                        </span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">Company Address:</span>
+                        <span class="info-value">{{ company_address }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem Description -->
+            <div class="problem-section">
+                <h3>🔍 Problem Description</h3>
+                <div class="problem-content">
+                    {{ problem_description }}
+                </div>
+            </div>
+
+            <!-- Service Center Action Items -->
+            <div class="action-items">
+                <h3>📋 Service Center Actions Required</h3>
+                <ul class="action-list">
+                    {% if priority_level == 'high' %}
+                    <li><strong>URGENT Response:</strong> Contact customer within 2 hours</li>
+                    <li><strong>Immediate Scheduling:</strong> Arrange service appointment ASAP</li>
+                    <li><strong>Resource Allocation:</strong> Assign senior technician</li>
+                    {% elif priority_level == 'medium' %}
+                    <li><strong>Standard Response:</strong> Contact customer within 4-6 hours</li>
+                    <li><strong>Service Scheduling:</strong> Arrange appointment within 24-48 hours</li>
+                    {% else %}
+                    <li><strong>Response Timeline:</strong> Contact customer within 24 hours</li>
+                    <li><strong>Service Scheduling:</strong> Arrange appointment within 2-3 days</li>
+                    {% endif %}
+
+                    <li><strong>Customer Contact:</strong> Call {{ mobile_number }} or email {{ email }}</li>
+                    <li><strong>Part Availability:</strong> Check inventory for {{ brand }} {{ model }}</li>
+                    <li><strong>Service Preparation:</strong> Review product specifications and serial number</li>
+
+                    {% if call_type_raw == 'onsite-visit' %}
+                    <li><strong>Site Visit:</strong> Schedule technician visit to {{ company_address }}</li>
+                    {% elif call_type_raw == 'remote-support' %}
+                    <li><strong>Remote Support:</strong> Set up remote diagnostic session</li>
+                    {% elif call_type_raw == 'pickup-delivery' %}
+                    <li><strong>Pickup Service:</strong> Arrange pickup from customer location</li>
+                    {% endif %}
+
+                    <li><strong>Documentation:</strong> Update service records with ticket {{ ticket_id }}</li>
+                    <li><strong>Status Updates:</strong> Provide regular updates to technical support team</li>
+                </ul>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="text-align: center; margin: 30px 0;">
+                <h3 style="color: #059669; margin-bottom: 20px;">🚀 Quick Actions</h3>
+                <div class="quick-actions">
+                    <a href="mailto:{{ email }}?subject=Service Request {{ ticket_id }} - {{ brand }} {{ model }}&body=Dear {{ contact_person }},%0D%0A%0D%0AThank you for your service request. This is {{ service_center }} Service Center.%0D%0A%0D%0ATicket ID: {{ ticket_id }}%0D%0AProduct: {{ brand }} {{ model }} (S/N: {{ serial_number }})%0D%0A%0D%0AWe have received your request and will contact you shortly to schedule the service..." class="quick-action-btn btn-primary">
+                        📧 Contact Customer
+                    </a>
+
+                    <a href="tel:{{ mobile_number }}" class="quick-action-btn btn-secondary">
+                        📞 Call Customer
+                    </a>
+
+                    <a href="mailto:{{ technical_support_email }}?subject=Service Center Update - {{ ticket_id }}&body=Technical Support Team,%0D%0A%0D%0AThis is {{ service_center }} Service Center regarding ticket {{ ticket_id }}.%0D%0A%0D%0ACustomer: {{ contact_person }} - {{ company }}%0D%0AProduct: {{ brand }} {{ model }}%0D%0A%0D%0AStatus Update: [Please provide status]%0D%0ANext Steps: [Please describe next steps]" class="quick-action-btn btn-warning">
+                        📋 Update Support Team
+                    </a>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div style="background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                <h3 style="color: #92400e; margin-bottom: 15px;">⚠️ Important Service Notes</h3>
+                <ul style="color: #92400e; padding-left: 20px;">
+                    <li style="margin-bottom: 8px;"><strong>Ticket ID:</strong> {{ ticket_id }} - Use this ID in all communications</li>
+                    <li style="margin-bottom: 8px;"><strong>Product:</strong> {{ brand }} {{ model }} (Serial: {{ serial_number }})</li>
+                    <li style="margin-bottom: 8px;"><strong>Customer:</strong> {{ contact_person }} - {{ company }}</li>
+                    <li style="margin-bottom: 8px;"><strong>Contact:</strong> {{ mobile_number }} / {{ email }}</li>
+                    <li style="margin-bottom: 8px;"><strong>Service Location:</strong> {{ company_address }}</li>
+                    {% if has_preferred_time %}
+                    <li style="margin-bottom: 8px;"><strong>Preferred Time:</strong> {{ preferred_time }}</li>
+                    {% endif %}
+                    <li style="margin-bottom: 8px;"><strong>Priority:</strong> {{ priority_level | upper }} - Follow appropriate response timeline</li>
+                    <li style="margin-bottom: 8px;"><strong>Service Type:</strong> {{ call_type }} - {{ call_category }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>{{ company_name }} - {{ service_center }} Service Center</strong></p>
+            <p>Service request assignment notification</p>
+            <p>&copy; {{ current_year }} {{ company_name }}. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

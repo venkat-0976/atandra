@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -9,7 +9,10 @@ import {
   FileText,
   Menu,
   X,
-  Star
+  Star,
+  Award,
+  Database,
+  BarChart
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
@@ -81,12 +84,20 @@ const tabs = [
   { id: 'comparison', label: 'Compare', icon: Star }
 ];
 
-const InstallationTesters = () => {
+const InstallationTesters = ({ data: initialData }: { data?: any }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('overview');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showOnlyProducts, setShowOnlyProducts] = useState(false);
+
+  // Slug Validation: Only use initialData if it belongs to this page
+  const [wpData, setWpData] = useState<any>(() => {
+    if (initialData?.slug === 'installation-testers') {
+      return initialData.acf || initialData;
+    }
+    return null;
+  });
+  const [isLoading, setIsLoading] = useState(!wpData);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -98,30 +109,88 @@ const InstallationTesters = () => {
   }, [location.search]);
 
   useEffect(() => {
+    if (wpData) return; // Skip if data already provided via props (hydration/SSR)
+    const fetchWpData = async () => {
+      try {
+        const response = await fetch('https://cms.atandra.in/wp-json/wp/v2/pages?slug=installation-testers');
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setWpData(data[0].acf || data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching WP data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchWpData();
+  }, [wpData]);
+
+  const displayFeatures = useMemo(() => {
+    try {
+      if (wpData?.features_json) {
+        const trimmed = wpData.features_json.trim();
+        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+          return JSON.parse(trimmed);
+        } else {
+          const blocks = trimmed.split(/\r?\n\s*\r?\n/);
+          return blocks.map(block => {
+            const lines = block.split(/\r?\n/).filter(l => l.trim());
+            if (lines.length === 0) return null;
+            let title = lines[0]?.trim() || "";
+            let description = lines.slice(1).join(" ").trim() || "";
+
+            const separators = [" – ", " — ", " - ", " : ", "-", ":"];
+            for (const sep of separators) {
+              if (title.includes(sep)) {
+                const parts = title.split(sep);
+                title = parts[0]?.trim();
+                const rest = parts.slice(1).join(sep).trim();
+                description = rest + (description ? " " + description : "");
+                break;
+              }
+            }
+            return { title, description };
+          }).filter(Boolean);
+        }
+      }
+    } catch (e) {
+      console.error("Error parsing features_json:", e);
+    }
+    return [
+      { title: "Superior Accuracy", description: "High-precision testing with accuracy class compliance for all essential electrical safety tests." },
+      { title: "All-in-One Testing", description: "Comprehensive testing for all neutral systems (TT, TN, IT) in a single portable instrument." },
+      { title: "Advanced Data Logging", description: "Extensive memory storage and PC interfaces for efficient test data management and reporting." },
+      { title: "Professional Quality", description: "Robust construction and reliability for demanding industrial and field testing applications." },
+      { title: "Compliance Ready", description: "Designed to meet international safety standards and regulatory requirements for installation testing." }
+    ];
+  }, [wpData?.features_json]);
+
+  useEffect(() => {
     if (window.location.hash === '#products-section') {
       const el = document.getElementById('products-section');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   }, []);
 
-  // Hero Section (updated to match PowerQuality style)
   const HeroSection = () => {
-    const handleViewBrochure = () => window.open('/public/T&M%20April%202025.pdf', '_blank');
+    const heroTitle = wpData?.hero_title || "INSTALLATION TESTERS";
+    const heroDescription = wpData?.hero_description || "Professional electrical test and measurement equipment compliant with international standards.";
+    const heroBadge = wpData?.hero_badge || "KRYKARD Installation Testing Solutions";
+    const heroImage = typeof wpData?.hero_image === 'string' ? wpData.hero_image : (wpData?.hero_image?.url || "/Tester-02.png");
+    const heroCtaText = wpData?.hero_cta_text || wpData?.hero_button_text || "Request Demo";
+    const heroCtaLink = wpData?.hero_cta_link || "/contact/sales";
 
     return (
       <div className="relative py-8 md:py-12 overflow-hidden font-['Open_Sans']">
-        {/* Hero Background Elements */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-3/4 h-full bg-yellow-50 rounded-bl-[100px] transform -skew-x-12"></div>
           <div className="absolute bottom-20 left-0 w-64 h-64 bg-yellow-400 rounded-full opacity-10"></div>
         </div>
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-[10%_90%] gap-0 items-center">
-            {/* Left Spacer for 10% on large screens */}
             <div className="hidden lg:block"></div>
-            {/* Content and Image Side by Side */}
             <div className="lg:flex lg:flex-row lg:items-center lg:gap-4">
-              {/* Text Content */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -129,33 +198,23 @@ const InstallationTesters = () => {
                 className="space-y-4 text-center lg:text-left lg:w-1/2"
               >
                 <div className="inline-block bg-yellow-400 py-1 px-3 rounded-full mb-2">
-                  <span className="text-sm md:text-base font-semibold text-gray-900 font-['Open_Sans']">KRYKARD Installation Testing Solutions</span>
+                  <span className="text-sm md:text-base font-semibold text-gray-900">{heroBadge}</span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-tight font-['Open_Sans']">
-                  INSTALLATION TESTERS
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
+                  {heroTitle}
                 </h1>
-                <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed font-medium text-justify lg:text-left font-['Open_Sans']">
-                  Professional electrical test and measurement equipment compliant with international standards.
+                <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed font-medium text-justify lg:text-left">
+                  {heroDescription}
                 </p>
                 <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
-                  <Link to="/contact/sales">
-                    <Button
-                      className="px-4 py-2 md:px-6 md:py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-lg shadow-md transition duration-300 flex items-center space-x-2 font-['Open_Sans']"
-                    >
-                      <span>Request Demo</span>
+                  <Link to={heroCtaLink}>
+                    <Button className="px-4 py-2 md:px-6 md:py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-lg shadow-md transition duration-300 flex items-center space-x-2">
+                      <span>{heroCtaText}</span>
                       <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                     </Button>
                   </Link>
-                  {/* <Button
-                    className="px-4 py-2 md:px-6 md:py-3 bg-white border-2 border-yellow-400 text-gray-900 font-semibold rounded-lg shadow-sm transition duration-300 hover:bg-yellow-50 flex items-center space-x-2 font-['Open_Sans']"
-                    onClick={handleViewBrochure}
-                  >
-                    <span>View Brochure</span>
-                    <FileText className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-                  </Button> */}
                 </div>
               </motion.div>
-              {/* Product Image */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -164,17 +223,9 @@ const InstallationTesters = () => {
               >
                 <div className="relative">
                   <img
-                    src="/Tester-02.png"
-                    alt="KRYKARD installation testers for professional electrical testing and compliance"
+                    src={heroImage}
+                    alt={heroTitle}
                     className="w-full max-w-md h-auto object-contain"
-                    width={1920}
-                    height={1080}
-                    loading="eager"
-                    decoding="async"
-                  // onError={e => {
-                  //   e.currentTarget.onerror = null;
-                  //   e.currentTarget.src = 'https://via.placeholder.com/400x300/FFD700/000000?text=Installation+Tester';
-                  // }}
                   />
                 </div>
               </motion.div>
@@ -185,27 +236,39 @@ const InstallationTesters = () => {
     );
   };
 
-  // Feature Highlight Component
-  const FeatureHighlight = ({ icon: Icon, title, description }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-      className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-4 h-full bg-transparent flex flex-col items-center text-center"
-      style={{ fontFamily: 'Open Sans, sans-serif' }}
-    >
-      <div className="flex flex-row items-center gap-3 mb-2 justify-center w-full">
-        <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center">
-          <Icon className="h-6 w-6 text-gray-900" />
+  const FeatureHighlight = ({ title, description }: { title: string, description: string }) => {
+    const getFeatureIcon = (title: string) => {
+      const normalized = title.toLowerCase().trim();
+      if (normalized.includes('precision') || normalized.includes('accuracy') || normalized.includes('quality')) return Award;
+      if (normalized.includes('all-in-one') || normalized.includes('testing') || normalized.includes('tester')) return Gauge;
+      if (normalized.includes('safety') || normalized.includes('compliance') || normalized.includes('standard')) return Shield;
+      if (normalized.includes('data') || normalized.includes('logging') || normalized.includes('reporting')) return FileText;
+      if (normalized.includes('memory') || normalized.includes('storage')) return Database;
+      if (normalized.includes('interface') || normalized.includes('display')) return Menu;
+      if (normalized.includes('versatile') || normalized.includes('methods')) return BarChart;
+      return Zap;
+    };
+    const Icon = getFeatureIcon(title);
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="rounded-2xl border border-yellow-200 hover:border-yellow-400 transition-all duration-300 p-6 h-full bg-yellow-50/50 flex flex-col items-center text-center group"
+        style={{ fontFamily: 'Open Sans, sans-serif' }}
+      >
+        <div className="flex flex-row items-center gap-3 mb-4 justify-center w-full">
+          <div className="bg-gradient-to-br from-yellow-400 to-yellow-500 w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110">
+            <Icon className="h-6 w-6 text-gray-900" />
+          </div>
+          <h3 className="text-base md:text-lg font-extrabold text-gray-900 m-0 p-0">{title}</h3>
         </div>
-        <h3 className="text-base md:text-lg font-bold text-gray-900 m-0 p-0">{title}</h3>
-      </div>
-      <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed">{description}</p>
-    </motion.div>
-  );
+        <p className="text-gray-700 font-medium text-sm md:text-base leading-relaxed px-2">{description}</p>
+      </motion.div>
+    );
+  };
 
-  // Product Overview Card Component (following the power quality design pattern)
   const ProductOverviewCard = ({ product }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -213,28 +276,14 @@ const InstallationTesters = () => {
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
       className="bg-white border border-yellow-300 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full"
-      style={{ fontFamily: 'Open Sans, sans-serif' }}
     >
-      {/* Model Number Badge */}
       <div className="flex justify-end p-3">
         <span className="bg-yellow-100 text-black text-xs font-semibold px-3 py-1 rounded-full">
           {product.modelNumber}
         </span>
       </div>
-      {/* Product Image */}
       <div className="flex items-center justify-center h-32 md:h-40 bg-yellow-50">
-        <img
-          src={product.image}
-          alt={`${product.title} - KRYKARD ${product.modelNumber} Installation Tester for ${product.measurement}`}
-          className="max-h-full max-w-full object-contain"
-          width={320}
-          height={240}
-          loading="lazy"
-        // onError={e => {
-        //   e.currentTarget.onerror = null;
-        //   e.currentTarget.src = 'https://via.placeholder.com/200x150/FFD700/000000?text=No+Image';
-        // }}
-        />
+        <img src={product.image} alt={product.title} className="max-h-full max-w-full object-contain" />
       </div>
       <div className="p-4 flex-1 flex flex-col justify-between">
         <div className="text-center mb-2">
@@ -252,54 +301,29 @@ const InstallationTesters = () => {
     </motion.div>
   );
 
-  // Navigation Component
   const Navigation = () => (
-    <nav className="w-full mb-4" style={{ fontFamily: 'Open Sans, sans-serif' }}>
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex justify-center py-4">
-        <div className="flex space-x-2">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-5 py-2 font-bold rounded transition-all duration-200 flex items-center space-x-2 border-none outline-none focus:ring-2 focus:ring-yellow-400 ${activeTab === tab.id
-                ? 'bg-yellow-400 text-gray-900'
-                : 'bg-transparent text-gray-700 hover:bg-yellow-50 hover:text-yellow-700'
-                }`}
-            >
-              <tab.icon className="h-5 w-5" />
-              <span className="text-base font-bold">{tab.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-      {/* Mobile Navigation */}
-      <div className="md:hidden flex justify-center py-2 gap-2">
+    <nav className="w-full mb-4">
+      <div className="flex justify-center py-4 space-x-2">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded font-bold flex items-center space-x-2 border-none outline-none focus:ring-2 focus:ring-yellow-400 ${activeTab === tab.id
-              ? 'bg-yellow-400 text-gray-900'
-              : 'bg-transparent text-gray-700 hover:bg-yellow-50 hover:text-yellow-700'
-              }`}
+            className={`px-5 py-2 font-bold rounded transition-all duration-200 flex items-center space-x-2 ${activeTab === tab.id ? 'bg-yellow-400 text-gray-900' : 'bg-transparent text-gray-700 hover:bg-yellow-50'}`}
           >
             <tab.icon className="h-5 w-5" />
-            <span className="text-base">{tab.label}</span>
+            <span className="text-base font-bold">{tab.label}</span>
           </button>
         ))}
       </div>
     </nav>
   );
 
-  // Comparison Table Component
   const ComparisonTable = () => {
-    console.log('InstallationTesters ComparisonTable rendering with products:', products.length);
-
+    const comparisonTableTitle = wpData?.comparison_table_title || "Model Comparison";
     return (
-      <div className="comparison-table bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full" style={{ fontFamily: 'Open Sans, sans-serif', display: 'block', visibility: 'visible', opacity: 1 }}>
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden w-full">
         <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 p-6">
-          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">Model Comparison</h3>
+          <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900">{comparisonTableTitle}</h3>
         </div>
         <div className="p-6 overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
@@ -314,36 +338,16 @@ const InstallationTesters = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-300 hover:bg-yellow-50 transition-colors">
+              <tr>
                 <td className="py-4 px-4 font-semibold text-gray-900 bg-gray-50 border border-gray-300">Display</td>
                 {products.map(product => (
-                  <td key={product.id} className="py-4 px-4 text-center font-medium text-gray-700 border border-gray-300">
-                    {product.displayInfo}
-                  </td>
+                  <td key={product.id} className="py-4 px-4 text-center font-medium text-gray-700 border border-gray-300">{product.displayInfo}</td>
                 ))}
               </tr>
-              <tr className="border-b border-gray-300 hover:bg-yellow-50 transition-colors">
-                <td className="py-4 px-4 font-semibold text-gray-900 bg-gray-50 border border-gray-300">Voltage Range</td>
+              <tr>
+                <td className="py-4 px-4 font-semibold text-gray-900 bg-gray-50 border border-gray-300">Voltage</td>
                 {products.map(product => (
-                  <td key={product.id} className="py-4 px-4 text-center font-medium text-gray-700 border border-gray-300">
-                    {product.voltage}
-                  </td>
-                ))}
-              </tr>
-              <tr className="border-b border-gray-300 hover:bg-yellow-50 transition-colors">
-                <td className="py-4 px-4 font-semibold text-gray-900 bg-gray-50 border border-gray-300">Measurement</td>
-                {products.map(product => (
-                  <td key={product.id} className="py-4 px-4 text-center font-medium text-gray-700 border border-gray-300">
-                    {product.measurement}
-                  </td>
-                ))}
-              </tr>
-              <tr className="hover:bg-yellow-50 transition-colors">
-                <td className="py-4 px-4 font-semibold text-gray-900 bg-gray-50 border border-gray-300">Accuracy</td>
-                {products.map(product => (
-                  <td key={product.id} className="py-4 px-4 text-center font-medium text-gray-700 border border-gray-300">
-                    {product.accuracy}
-                  </td>
+                  <td key={product.id} className="py-4 px-4 text-center font-medium text-gray-700 border border-gray-300">{product.voltage}</td>
                 ))}
               </tr>
             </tbody>
@@ -353,12 +357,11 @@ const InstallationTesters = () => {
     );
   };
 
-  // Prepare JSON-LD structured data for CollectionPage
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "KRYKARD Installation Testers",
-    "description": "KRYKARD Installation Testers - Professional Electrical Testing Equipment — advanced installation tester compliant with international electrical testing.",
+    "name": wpData?.seo_title || "KRYKARD Installation Testers",
+    "description": wpData?.seo_description || "KRYKARD Installation Testers - Professional Electrical Testing Equipment — advanced installation tester compliant with international electrical testing.",
     "url": "https://atandra.in/measure/installation-testers",
     "mainEntity": {
       "@type": "ItemList",
@@ -378,309 +381,116 @@ const InstallationTesters = () => {
   return (
     <>
       <SeoHead
-        title="KRYKARD Installation Testers | Atandra"
-        description="KRYKARD Installation Testers - Professional Electrical Testing Equipment — advanced installation tester compliant with international electrical testing."
-        keywords="installation testers, power quality analyzer, energy monitoring, electrical diagnostics, harmonics measurement, industrial power audit, PQ compliance"
+        title={wpData?.seo_title || (wpData?.hero_title ? `${wpData.hero_title} | Atandra` : "KRYKARD Installation Testers | Atandra")}
+        description={wpData?.seo_description || "KRYKARD Installation Testers - Professional Electrical Testing Equipment"}
         canonical="https://atandra.in/measure/installation-testers"
-        ogImage="/Tester-02.png"
+        ogImage={typeof wpData?.hero_image === 'string' ? wpData.hero_image : (wpData?.hero_image?.url || "https://atandra.in/Tester-02.png")}
         jsonLd={jsonLd}
-        preloadImage="/Tester-02.png"
       />
       <PageLayout hideHero={true} hideBreadcrumbs={true}>
-        {/* Hide Breadcrumbs and Remove Top Padding */}
-        <style>{`
-        nav.mb-10 { display: none !important; }
-        .py-16.xs\\:py-20.sm\\:py-24 { padding-top: 0 !important; }
-      `}</style>
+        <style>{`nav.mb-10 { display: none !important; } .py-16 { padding-top: 0 !important; }`}</style>
 
-        {/* Show Hero Section only when not in products-only view AND on overview tab */}
-        {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
-
-        {/* Navigation - Always show after hero section for normal view */}
-        {!showOnlyProducts && <Navigation />}
-
-        {/* Show only products view */}
-        {showOnlyProducts ? (
+        {isLoading ? (
+          <div className="min-h-[60vh] flex items-center justify-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full"
+            />
+          </div>
+        ) : (
           <>
-            {/* Navigation for products-only view */}
-            <Navigation />
-            {/* Main Title */}
-            <div className="w-full py-6 text-center">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight inline-block border-b-4 border-yellow-400 pb-2">
-                Installation Testers
-              </h1>
-            </div>
-            {/* Product Cards Section */}
-            <section id="products-section" className="py-12 md:py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-10"
-                >
+            {!showOnlyProducts && activeTab === 'overview' && <HeroSection />}
+            {!showOnlyProducts && <Navigation />}
+
+            {showOnlyProducts ? (
+              <section id="products-section" className="py-12 md:py-16">
+                <div className="max-w-7xl mx-auto px-4 text-center">
                   <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                    PROFESSIONAL SERIES
+                    {wpData?.products_badge || "PROFESSIONAL SERIES"}
                   </div>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                    Our Installation Tester Range
-                  </h2>
-                  <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                    Choose the perfect tester for your electrical measurement and compliance needs.
+                  <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-8 border-b-4 border-yellow-400 inline-block pb-2">
+                    {wpData?.products_title || "Installation Testers"}
+                  </h1>
+                  <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-10">
+                    {wpData?.products_description || "Explore our comprehensive lineup of professional installation testers."}
                   </p>
-                </motion.div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-                  {products.map((product) => (
-                    <ProductOverviewCard key={product.id} product={product} />
-                  ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {products.map(p => <ProductOverviewCard key={p.id} product={p} />)}
+                  </div>
                 </div>
+              </section>
+            ) : (
+              <AnimatePresence mode="wait">
+                {activeTab === 'overview' && (
+                  <motion.div key="overview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <section id="products-section" className="py-12 md:py-16">
+                      <div className="max-w-7xl mx-auto px-4 text-center mb-10">
+                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                          {wpData?.products_badge || "PRODUCTS"}
+                        </div>
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                          {wpData?.products_title || "Our Installation Tester Range"}
+                        </h2>
+                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
+                          {wpData?.products_description || "Explore our comprehensive lineup."}
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                          {products.map(p => <ProductOverviewCard key={p.id} product={p} />)}
+                        </div>
+                      </div>
+                    </section>
+
+                    <section className="py-8 md:py-12 bg-yellow-50">
+                      <div className="max-w-7xl mx-auto px-4 text-center">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4">{wpData?.features_title || "Key Features"}</h2>
+                        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-10">{wpData?.features_description || "Discover the standout features."}</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {displayFeatures.map((f, i) => <FeatureHighlight key={i} title={f.title} description={f.description} />)}
+                        </div>
+                      </div>
+                    </section>
+                  </motion.div>
+                )}
+                {activeTab === 'comparison' && (
+                  <motion.div key="comparison" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <section className="py-12 md:py-16 bg-gray-50 px-4">
+                      <div className="max-w-7xl mx-auto text-center">
+                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
+                          {wpData?.comparison_badge || "COMPARISON"}
+                        </div>
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                          {wpData?.comparison_title || "Compare Our Models"}
+                        </h2>
+                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
+                          {wpData?.comparison_description || "Find the perfect installation tester for your specific requirements"}
+                        </p>
+                        <ComparisonTable />
+                      </div>
+                    </section>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            )}
+
+            <section className="py-12 md:py-16 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-12 text-center">
+              <div className="max-w-4xl mx-auto px-4 text-center">
+                <h2 className="text-2xl md:text-3xl font-bold mb-4">{wpData?.bottom_cta_title || "Need Expert Advice?"}</h2>
+                <p className="text-base md:text-lg text-gray-800 mb-8 font-medium max-w-xl mx-auto">{wpData?.bottom_cta_description || "Our specialists provide comprehensive guidance."}</p>
+                <Link to="/contact/sales" className="inline-flex px-8 py-4 bg-yellow-400 hover:bg-yellow-500 font-bold rounded-xl shadow-lg items-center space-x-2">
+                  <span>{wpData?.bottom_cta_button_text || "Contact Our Experts"}</span>
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
               </div>
             </section>
           </>
-        ) : (
-          <>
-            {/* Content based on active tab */}
-            <AnimatePresence mode="wait">
-              {activeTab === 'overview' && (
-                <motion.div
-                  key="overview"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Product Overview Section */}
-                  <section id="products-section" className="py-12 md:py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          PRODUCTS
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Our Installation Tester Range
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-2">
-                          Choose the perfect tester for your electrical measurement and compliance needs.
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-8">
-                        {products.map((product) => (
-                          <ProductOverviewCard key={product.id} product={product} />
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-
-                  {/* Key Features Section */}
-                  <section className="py-8 md:py-12 bg-yellow-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-14"
-                      >
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4 tracking-tight">
-                          Key Features
-                        </h2>
-                        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium mb-2">
-                          Discover the standout features that make our installation testers the preferred choice for professionals.
-                        </p>
-                      </motion.div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-                        <FeatureHighlight
-                          icon={Zap}
-                          title="All-in-One Testing"
-                          description="Comprehensive measurement capabilities including insulation, continuity, loop impedance, RCD testing, earth resistance, and more."
-                        />
-                        <FeatureHighlight
-                          icon={Shield}
-                          title="Compliance Assurance"
-                          description="Ensures compliance with international standards including IEC 60364-6, NF C 15-100, VDE 100, and FD C 16-600."
-                        />
-                        <FeatureHighlight
-                          icon={Gauge}
-                          title="Versatile Applications"
-                          description="Compatible with all neutral system arrangements (TT, TN, IT), ideal for industries, tertiary, and residential."
-                        />
-                        <FeatureHighlight
-                          icon={FileText}
-                          title="Data Logging & Storage"
-                          description="Extensive memory for long-term data logging and easy export for analysis."
-                        />
-                        <FeatureHighlight
-                          icon={Menu}
-                          title="User-Friendly Interface"
-                          description="Intuitive displays and navigation for quick setup and operation."
-                        />
-                        <FeatureHighlight
-                          icon={Star}
-                          title="Flexible Power & Connectivity"
-                          description="Multiple power supply options and PC interface for seamless data transfer."
-                        />
-                      </div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-
-              {activeTab === 'comparison' && (
-                <motion.div
-                  key="comparison"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Comparison Section */}
-                  <section className="py-12 md:py-16 min-h-screen bg-gray-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center mb-10"
-                      >
-                        <div className="inline-block bg-yellow-100 text-yellow-800 px-6 py-3 rounded-full text-lg font-bold mb-6">
-                          COMPARISON
-                        </div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                          Compare Our Models
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-700 max-w-4xl mx-auto font-medium mb-8">
-                          Find the perfect installation tester for your specific requirements
-                        </p>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="w-full"
-                      >
-                        <ComparisonTable />
-                      </motion.div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
         )}
 
-        {/* SEO Content Section - 250+ Words in Collapsible Details */}
-        <section className="py-4 md:py-6 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <style>{`
-              .seo-details-installation summary {
-                list-style: none;
-              }
-              .seo-details-installation summary::-webkit-details-marker {
-                display: none;
-              }
-            `}</style>
-
-            <details className="seo-details-installation group w-full">
-              <summary className="cursor-pointer text-base font-semibold text-gray-900 py-2 px-4 bg-yellow-50 hover:bg-yellow-100 transition-all rounded-lg flex items-center gap-2 w-fit mx-auto">
-                <span>Learn More</span>
-                <span className="text-yellow-600 group-open:rotate-180 transition-transform duration-300 text-xl">▼</span>
-              </summary>
-
-              <div className="px-4 py-4 mt-2 border border-yellow-200 rounded-lg bg-white">
-                <div className="prose prose-sm max-w-none">
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4 first:mt-0">
-                    Understanding Installation Testing and Electrical Safety Verification
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Installation testers, also known as electrical installation testers or multifunction installation testers, are comprehensive instruments designed to perform all essential electrical safety tests required for verifying electrical installations. These professional-grade tools combine multiple testing functions including insulation resistance, earth resistance, loop impedance, RCD testing, voltage measurement, and continuity testing in a single portable device. Installation testing is mandatory for ensuring electrical safety compliance, verifying that new installations meet safety standards, and maintaining existing electrical systems. KRYKARD installation testers provide all-in-one testing solutions with support for all neutral systems (TT, TN, IT), enabling professionals to perform comprehensive electrical safety verification efficiently and accurately.
-                  </p>
-
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Applications and Benefits of Professional Installation Testers
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    KRYKARD installation testers are specifically designed for professionals who require comprehensive electrical safety testing in professional installation testing, electrical safety compliance, industrial maintenance, field measurements, new installation verification, and periodic inspection testing. Our comprehensive range includes advanced models with 5.7" backlit color LCD displays and 1,000 memory locations, as well as standard models with 231-segment LCD displays and Android app compatibility for report generation. These instruments support all neutral systems including TT, TN, and IT configurations, enabling testing across various electrical installation types. With features like automatic test sequences, multiple power supply options, comprehensive measurement capabilities, and extensive memory storage, KRYKARD installation testers deliver efficient and accurate testing solutions for professional applications.
-                  </p>
-
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Technical Excellence and Advanced Features
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    KRYKARD installation testers offer exceptional performance with voltage measurement up to 550 VAC/DC and 800.0 VDC, comprehensive testing functions including insulation resistance, earth resistance, loop impedance, RCD testing, voltage measurement, and continuity testing. The instruments feature large, backlit displays for clear visualization of test results, automatic test sequences for efficient testing workflows, and extensive memory storage for test data management. Advanced models include Android app compatibility for convenient report generation, multiple power supply options for flexibility in various environments, and comprehensive measurement capabilities for all essential electrical safety tests. With features like password protection, data logging, and communication interfaces, KRYKARD installation testers provide the functionality required for professional electrical installation testing applications.
-                  </p>
-
-                  <h3 className="text-base font-bold text-gray-900 mb-2 mt-4">
-                    Why Choose KRYKARD Installation Testers?
-                  </h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    KRYKARD installation testers combine precision engineering with comprehensive testing capabilities, delivering professional-grade electrical installation testing in reliable packages. With features like all-in-one testing functionality, support for all neutral systems, large color displays, automatic test sequences, extensive memory storage, Android app compatibility, and comprehensive measurement capabilities, KRYKARD installation testers are trusted by professionals across India for professional installation testing, electrical safety compliance, industrial maintenance, field measurements, new installation verification, and periodic inspection testing. Whether you need to verify new installations, perform periodic inspections, ensure electrical safety compliance, or maintain existing electrical systems, KRYKARD installation testers provide the reliability and comprehensive functionality required for professional electrical installation testing applications.
-                  </p>
-                </div>
-              </div>
-            </details>
-          </div>
-        </section>
-
-        {/* Contact Section - Always show at bottom */}
-        <section className="py-6 md:py-8 mb-16 md:mb-24 bg-gradient-to-br from-yellow-50 to-yellow-100 border-t-2 border-yellow-200 mt-6">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="pb-4"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Need Expert Advice?
-              </h2>
-              <p className="text-base md:text-lg text-gray-800 mb-6 font-medium max-w-xl mx-auto">
-                Our specialists provide comprehensive guidance on installation testing solutions
-              </p>
-              <Link
-                to="/contact/sales"
-                className="inline-flex px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg transition-all duration-300 items-center justify-center space-x-2 text-base mx-auto"
-              >
-                <span>Contact Our Experts</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* CSS Override for table borders visibility */}
         <style>{`
-        .comparison-table {
-          display: block !important;
-          visibility: visible !important;
-          opacity: 1 !important;
-        }
-
-        .comparison-table table {
-          border-collapse: collapse !important;
-          border: 2px solid #d1d5db !important;
-        }
-
-        .comparison-table table th,
-        .comparison-table table td {
-          border: 1px solid #d1d5db !important;
-          border-collapse: collapse !important;
-        }
-
-        .comparison-table table thead tr {
-          border-bottom: 3px solid #fbbf24 !important;
-        }
-
-        .comparison-table table tbody tr {
-          border-bottom: 1px solid #d1d5db !important;
-        }
-      `}</style>
+          .comparison-table table { border-collapse: collapse; width: 100%; border: 1px solid #ddd; }
+          .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+          .comparison-table th { background: #fefce8; }
+        `}</style>
       </PageLayout>
     </>
   );

@@ -155,40 +155,28 @@ const TrackingParameterRemover = () => {
 
 interface AppProps {
   location?: string;
+  data?: any;
 }
 
-// Debug component to track route matching
-const RouteDebugger = () => {
-  const location = useLocation();
-  const isSSR = typeof window === 'undefined';
-
-  if (isSSR) {
-    console.log(`[RouteDebugger] Current pathname: ${location.pathname}`);
-    console.log(`[RouteDebugger] Current search: ${location.search}`);
-    console.log(`[RouteDebugger] Current hash: ${location.hash}`);
-    console.log(`[RouteDebugger] Current state:`, location.state);
+// Global variable to store hydrated WordPress data
+let hydratedWpData: any = null;
+if (typeof window !== 'undefined') {
+  const dataScript = document.getElementById('__WP_DATA__');
+  if (dataScript) {
+    try {
+      hydratedWpData = JSON.parse(dataScript.textContent || 'null');
+      console.log('🎯 Hydrated WP data found:', hydratedWpData);
+    } catch (e) {
+      console.error('Failed to parse __WP_DATA__', e);
+    }
   }
+}
 
-  return null;
-};
-
-// Enhanced SSR Route Matcher - verifies routes are matching correctly
-const SSRRouteMatcher = () => {
-  const location = useLocation();
-  const isSSR = typeof window === 'undefined';
-
-  // Log during render (not useEffect) so it works during SSR
-  if (isSSR) {
-    console.log(`[SSRRouteMatcher] ✅ Route context available - pathname: ${location.pathname}`);
-    console.log(`[SSRRouteMatcher] ✅ This means Routes component should be able to match routes`);
-  }
-
-  return null;
-};
-
-const App = ({ location }: AppProps = {}) => {
+const App = ({ location, data }: AppProps = {}) => {
   const isSSR = typeof window === 'undefined'
-  console.log('🎯 App component rendering...', { location, isSSR });
+  const wpData = data || hydratedWpData;
+
+  console.log('🎯 App component rendering...', { location, isSSR, hasData: !!wpData });
 
   // Debug: Log which route will be matched during SSR
   if (isSSR && location) {
@@ -204,9 +192,7 @@ const App = ({ location }: AppProps = {}) => {
           <Router location={location}>
             <ScrollToTop /> {/* Add ScrollToTop component here */}
             <TrackingParameterRemover /> {/* Remove tracking parameters */}
-            <RouteDebugger /> {/* Debug route matching */}
             <EventPopup />
-            <SSRRouteMatcher /> {/* Verify route matching during SSR */}
             <AuthProvider>
 
               <Routes>
@@ -268,34 +254,23 @@ const App = ({ location }: AppProps = {}) => {
                 <Route path="/measure/earth-loop-testers/product/CA-6418" element={<Navigate to="/measure/earth-loop-testers/product/ca6418" replace />} />
                 {/* <Route path="/contact" element={<Navigate to="/contact/sales" replace />} /> */}
                 {/* Measure subpages */}
-
-                <Route path="/measure/power-quality-analyzers" element={<PowerQualityAnalyzersProducts />} />
-
-
-
-
-
-
-
-
-                {/* Measure subpages */}
-                <Route path="/measure/power-quality-analyzers" element={<PowerQualityAnalyzersProducts />} />
-                <Route path="/measure/thermal-imagers" element={<ThermalImagers />} />
+                <Route path="/measure/power-quality-analyzers" element={<PowerQualityAnalyzersProducts data={wpData} />} />
+                <Route path="/measure/thermal-imagers" element={<ThermalImagers data={wpData} />} />
                 <Route path="/measure/thermal-imagers/product/:productId" element={<ThermalImagerProduct />} />
-                <Route path="/measure/insulation-testers" element={<InsulationTesters />} />
+                <Route path="/measure/insulation-testers" element={<InsulationTesters data={wpData} />} />
                 <Route path="/measure/insulation-testers/product/:productId" element={<InsulationTesterProduct />} />
-                <Route path="/measure/earth-loop-testers" element={<EarthLoopTesters />} />
-                <Route path="/measure/digital-multimeters" element={<DigitalMultimeters />} />
+                <Route path="/measure/earth-loop-testers" element={<EarthLoopTesters data={wpData} />} />
+                <Route path="/measure/digital-multimeters" element={<DigitalMultimeters data={wpData} />} />
                 <Route path="/measure/digital-multimeters/product/:productId" element={<MultimeterProduct />} />
-                <Route path="/measure/clamp-meters" element={<ClampMeters />} />
-                <Route path="/measure/earth-testers" element={<EarthTesters />} />
+                <Route path="/measure/clamp-meters" element={<ClampMeters data={wpData} />} />
+                <Route path="/measure/earth-testers" element={<EarthTesters data={wpData} />} />
                 <Route path="/measure/earth-testers/product/:productId" element={<EarthTesterProduct />} />
-                <Route path="/measure/micro-ohmmeters" element={<MicroOhmmeters />} />
+                <Route path="/measure/micro-ohmmeters" element={<MicroOhmmeters data={wpData} />} />
                 <Route path="/measure/micro-ohmmeters/:productId" element={<MicroOhmMeterProduct />} />
-                <Route path="/measure/multi-functional-meters" element={<MultiFunctionalMeters />} />
+                <Route path="/measure/multi-functional-meters" element={<MultiFunctionalMeters data={wpData} />} />
                 <Route path="/measure/multi-functional-meters/product/:productId" element={<MultiFunctionalMeterProduct />} />
-                <Route path="/measure/installation-testers" element={<InstallationTesters />} />
-                <Route path="/measure/oscilloscopes" element={<Oscilloscopes />} />
+                <Route path="/measure/installation-testers" element={<InstallationTesters data={wpData} />} />
+                <Route path="/measure/oscilloscopes" element={<Oscilloscopes data={wpData} />} />
                 <Route path="/measure/oscilloscopes/product/:productId" element={<OscilloscopeProduct />} />
                 <Route path="/measure/clamp-meters/product/:productId" element={<ClampMeterProduct />} />
                 <Route path="/measure/earth-loop-testers/product/:productId" element={<EarthLoopTesterProduct />} />
@@ -344,11 +319,11 @@ const App = ({ location }: AppProps = {}) => {
 
                 {/* About subpages */}
                 <Route path="/about/company" element={<Company />} />
-                <Route path="/about/certificates" element={<Certificates />} />
+                <Route path="/about/certificates" element={<Certificates data={wpData} />} />
                 {/* <Route path="/about/sustainability" element={<Sustainability />} /> */}
-                <Route path="/about/events" element={<Events />} />
+                <Route path="/about/events" element={<Events data={wpData} />} />
                 <Route path="/about/vision-mission" element={<Company />} />
-                <Route path="/about/our-leadership" element={<OurLeadership />} />
+                <Route path="/about/our-leadership" element={<OurLeadership data={wpData} />} />
                 <Route path="/about/careers" element={<Careers />} />
                 <Route path="/careers" element={<Navigate to="/about/careers" replace />} />
 
@@ -356,7 +331,7 @@ const App = ({ location }: AppProps = {}) => {
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/faqs/:category" element={<FAQs />} />
                 {/* Blogs Page */}
-                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/blogs" element={<Blogs data={wpData} />} />
 
 
                 {/* Catch-all route */}

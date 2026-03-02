@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Contact Form Inquiry - {{ company_name }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #dc2626 0%, #ea580c 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .alert-banner {
+            background-color: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 15px 20px;
+            margin: 0;
+            border-top: 1px solid #fee2e2;
+        }
+        
+        .alert-banner h3 {
+            color: #dc2626;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .alert-banner p {
+            color: #991b1b;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px 25px;
+        }
+        
+        .priority-section {
+            background-color: #fff7ed;
+            border: 2px solid #fb923c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .priority-section h3 {
+            color: #ea580c;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .customer-info {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .customer-info h3 {
+            color: #1e40af;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 100px;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            color: #1f2937;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        .contact-links a {
+            color: #1e40af;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .contact-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .services-section {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .services-section h3 {
+            color: #15803d;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .services-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .services-list li {
+            background-color: #dcfce7;
+            color: #15803d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .remarks-section {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .remarks-section h3 {
+            color: #a16207;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .remarks-content {
+            background-color: #fffbeb;
+            padding: 15px;
+            border-radius: 6px;
+            color: #92400e;
+            font-style: italic;
+            border-left: 3px solid #fbbf24;
+        }
+        
+        .action-items {
+            background-color: #eff6ff;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .action-items h3 {
+            color: #1d4ed8;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .action-list {
+            color: #1e40af;
+            padding-left: 20px;
+        }
+        
+        .action-list li {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        
+        .quick-action-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            min-width: 140px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #1e40af;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            background-color: #059669;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #047857;
+        }
+        
+        .btn-warning {
+            background-color: #d97706;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #b45309;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer {
+            background-color: #374151;
+            color: #d1d5db;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .footer p {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-label {
+                min-width: auto;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quick-action-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚨 New Contact Form Inquiry</h1>
+            <p>{{ company_name }} - Sales Team Alert</p>
+        </div>
+        
+        <!-- Alert Banner -->
+        <div class="alert-banner">
+            <h3>⏰ Immediate Action Required</h3>
+            <p>A new potential customer has submitted an inquiry. Please respond within 2-4 hours for optimal conversion.</p>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Priority Information -->
+            <div class="priority-section">
+                <h3>🎯 Lead Priority Information</h3>
+                <p><strong>Lead Source:</strong> Website Contact Form</p>
+                <p><strong>Submission Time:</strong> {{ inquiry_date }}</p>
+                <p><strong>Product Interest:</strong> {{ products }}</p>
+                <p><strong>Company Size:</strong> {{ company }} ({{ designation }})</p>
+            </div>
+            
+            <!-- Customer Information -->
+            <div class="customer-info">
+                <h3>👤 Customer Details</h3>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Full Name:</span>
+                        <span class="info-value"><strong>{{ name }}</strong></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Job Title:</span>
+                        <span class="info-value">{{ designation }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Company:</span>
+                        <span class="info-value"><strong>{{ company }}</strong></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Location:</span>
+                        <span class="info-value">{{ city }}, {{ pincode }}</span>
+                    </div>
+                    
+                    <div class="info-item contact-links">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">
+                            <a href="mailto:{{ email }}">{{ email }}</a>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item contact-links">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">
+                            <a href="tel:{{ mobile }}">{{ mobile }}</a>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Product Interest:</span>
+                        <span class="info-value"><strong>{{ products }}</strong></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Submitted:</span>
+                        <span class="info-value">{{ submitted_at | datetime_format }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Requested Services -->
+            {% if has_services %}
+            <div class="services-section">
+                <h3>🔧 Requested Services</h3>
+                <ul class="services-list">
+                    {% for service in services %}
+                    <li>{{ service }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- Customer Remarks -->
+            {% if has_remarks %}
+            <div class="remarks-section">
+                <h3>💬 Customer Message</h3>
+                <div class="remarks-content">
+                    "{{ remarks }}"
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Action Items -->
+            <div class="action-items">
+                <h3>📋 Required Actions</h3>
+                <ul class="action-list">
+                    <li><strong>Immediate Response:</strong> Send acknowledgment email within 2 hours</li>
+                    <li><strong>Lead Assignment:</strong> Assign to appropriate product specialist</li>
+                    <li><strong>Initial Assessment:</strong> Review customer requirements and company profile</li>
+                    {% if 'request-callback' in services_raw %}
+                    <li><strong>Schedule Call:</strong> Contact customer at {{ mobile }} within 24 hours</li>
+                    {% endif %}
+                    {% if 'request-demo' in services_raw %}
+                    <li><strong>Demo Preparation:</strong> Prepare {{ products }} demonstration materials</li>
+                    {% endif %}
+                    {% if 'send-details' in services_raw %}
+                    <li><strong>Send Materials:</strong> Email detailed product information and brochures</li>
+                    {% endif %}
+                    {% if 'send-updates' in services_raw %}
+                    <li><strong>Add to Newsletter:</strong> Subscribe to product updates and company news</li>
+                    {% endif %}
+                    <li><strong>Follow-up Schedule:</strong> Set reminders for 24h, 48h, and 1-week follow-ups</li>
+                    <li><strong>CRM Update:</strong> Log all customer information and interaction history</li>
+                </ul>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div style="text-align: center; margin: 30px 0;">
+                <h3 style="color: #1e40af; margin-bottom: 20px;">🚀 Quick Actions</h3>
+                <div class="quick-actions">
+                    <a href="mailto:{{ email }}?subject=Re: Your Inquiry About {{ products }} - {{ company_name }}&body=Dear {{ name }},%0D%0A%0D%0AThank you for your interest in our {{ products_raw }} solutions..." class="quick-action-btn btn-primary">
+                        📧 Reply to Customer
+                    </a>
+                    
+                    <a href="tel:{{ mobile }}" class="quick-action-btn btn-secondary">
+                        📞 Call Customer
+                    </a>
+                    
+                    <a href="mailto:{{ email }}?subject=Product Demo Request - {{ products }}&body=Dear {{ name }},%0D%0A%0D%0AWe would be delighted to arrange a personalized demonstration..." class="quick-action-btn btn-warning">
+                        🎥 Schedule Demo
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Lead Scoring & Notes -->
+            <!-- <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 25px 0;">
+                <h3 style="color: #374151; margin-bottom: 15px;">📊 Lead Assessment</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <strong style="color: #6b7280;">Lead Quality:</strong>
+                        <div style="margin-top: 5px;">
+                            <span style="background-color: #10b981; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">
+                                HIGH QUALITY
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong style="color: #6b7280;">Urgency Level:</strong>
+                        <div style="margin-top: 5px;">
+                            {% if 'request-callback' in services_raw %}
+                            <span style="background-color: #ef4444; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">
+                                URGENT
+                            </span>
+                            {% else %}
+                            <span style="background-color: #f59e0b; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">
+                                MEDIUM
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong style="color: #6b7280;">Product Category:</strong>
+                        <div style="margin-top: 5px;">
+                            <span style="background-color: #3b82f6; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">
+                                {{ products_raw | upper }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <strong style="color: #6b7280;">Geographic Zone:</strong>
+                        <div style="margin-top: 5px;">
+                            <span style="background-color: #8b5cf6; color: white; padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">
+                                {{ city | upper }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            
+            <!-- Customer Journey Stage
+            <div style="background-color: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                <h3 style="color: #047857; margin-bottom: 15px;">🛤️ Customer Journey Stage</h3>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="width: 40px; height: 40px; background-color: #10b981; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+                        <div style="font-size: 12px; color: #047857; font-weight: 600;">AWARENESS</div>
+                    </div>
+                    
+                    <div style="flex: 1; height: 2px; background-color: #10b981; margin: 0 5px;"></div>
+                    
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="width: 40px; height: 40px; background-color: #10b981; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">2</div>
+                        <div style="font-size: 12px; color: #047857; font-weight: 600;">INTEREST</div>
+                    </div>
+                    
+                    <div style="flex: 1; height: 2px; background-color: #d1d5db; margin: 0 5px;"></div>
+                    
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="width: 40px; height: 40px; background-color: #d1d5db; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: #6b7280; font-weight: bold;">3</div>
+                        <div style="font-size: 12px; color: #6b7280; font-weight: 600;">CONSIDERATION</div>
+                    </div>
+                    
+                    <div style="flex: 1; height: 2px; background-color: #d1d5db; margin: 0 5px;"></div>
+                    
+                    <div style="text-align: center; flex: 1; min-width: 100px;">
+                        <div style="width: 40px; height: 40px; background-color: #d1d5db; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: #6b7280; font-weight: bold;">4</div>
+                        <div style="font-size: 12px; color: #6b7280; font-weight: 600;">DECISION</div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 15px; color: #047857; text-align: center; font-weight: 500;">
+                    Customer is currently in the <strong>INTEREST</strong> stage. Focus on nurturing and providing value.
+                </p>
+            </div> -->
+            
+            <!-- Next Steps Timeline -->
+            <!-- <div style="background-color: #fef7ff; border: 1px solid #d8b4fe; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                <h3 style="color: #7c3aed; margin-bottom: 15px;">⏰ Recommended Response Timeline</h3>
+                
+                <div style="space-y: 10px;">
+                    <div style="display: flex; align-items: center; padding: 10px; background-color: #ffffff; border-radius: 6px; border-left: 4px solid #ef4444;">
+                        <span style="background-color: #ef4444; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-right: 15px;">0-2 HRS</span>
+                        <span style="color: #374151; font-weight: 500;">Send initial acknowledgment email</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; padding: 10px; background-color: #ffffff; border-radius: 6px; border-left: 4px solid #f59e0b; margin-top: 8px;">
+                        <span style="background-color: #f59e0b; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-right: 15px;">2-24 HRS</span>
+                        <span style="color: #374151; font-weight: 500;">First phone call or detailed email response</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; padding: 10px; background-color: #ffffff; border-radius: 6px; border-left: 4px solid #10b981; margin-top: 8px;">
+                        <span style="background-color: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-right: 15px;">1-3 DAYS</span>
+                        <span style="color: #374151; font-weight: 500;">Send detailed proposal and schedule demo</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; padding: 10px; background-color: #ffffff; border-radius: 6px; border-left: 4px solid #6b7280; margin-top: 8px;">
+                        <span style="background-color: #6b7280; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-right: 15px;">1 WEEK</span>
+                        <span style="color: #374151; font-weight: 500;">Follow-up if no response received</span>
+                    </div>
+                </div>
+            </div> -->
+            
+            <!-- Important Notes -->
+            <div style="background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 25px 0;">
+                <h3 style="color: #92400e; margin-bottom: 15px;">⚠️ Important Notes</h3>
+                <ul style="color: #92400e; padding-left: 20px;">
+                    <li style="margin-bottom: 8px;"><strong>Lead Source:</strong> Direct website inquiry (high intent)</li>
+                    <li style="margin-bottom: 8px;"><strong>Contact Preference:</strong> 
+                        {% if 'request-callback' in services_raw %}
+                        Phone call preferred - Contact via {{ mobile }}
+                        {% else %}
+                        Email communication - Use {{ email }}
+                        {% endif %}
+                    </li>
+                    <li style="margin-bottom: 8px;"><strong>Best Contact Time:</strong> Business hours (9 AM - 6 PM IST)</li>
+                    <li style="margin-bottom: 8px;"><strong>Geographic Location:</strong> {{ city }}, {{ pincode }} - Consider local market conditions</li>
+                    <li style="margin-bottom: 8px;"><strong>Decision Maker:</strong> {{ designation }} at {{ company }} - Likely has influence in purchasing decisions</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Timestamp Footer -->
+        <div class="timestamp">
+            <p><strong>Email Generated:</strong> {{ inquiry_date }}</p>
+            <p><strong>System:</strong> {{ company_name }} Contact Form Processor</p>
+            <p><strong>Priority Level:</strong> 
+                {% if 'request-callback' in services_raw %}
+                <span style="color: #dc2626; font-weight: 600;">HIGH PRIORITY</span>
+                {% else %}
+                <span style="color: #059669; font-weight: 600;">STANDARD PRIORITY</span>
+                {% endif %}
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>{{ company_name }} - Sales Team Dashboard</strong></p>
+            <p>Automated lead notification system</p>
+            <p>&copy; {{ current_year }} {{ company_name }}. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
